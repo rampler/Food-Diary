@@ -2,10 +2,7 @@ package pl.foodiary.domain;
 
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 /**
@@ -18,7 +15,7 @@ public class User {
 	@Type(type = "pg-uuid")
 	private UUID id;
 
-	@Column
+	@Column(unique = true)
 	private String login;
 
 	@Column

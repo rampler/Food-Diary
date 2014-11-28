@@ -6,4 +6,6 @@ import pl.foodiary.domain.User;
 /**
  * Created by Mateusz on 2014-11-27.
  */
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {}
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+	User findOneByLogin(String login);
+}
