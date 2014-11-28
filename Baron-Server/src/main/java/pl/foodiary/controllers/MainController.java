@@ -21,7 +21,10 @@ public class MainController {
 				(new Date().toString()) + "<br />" +
 				"<h2>API:</h2>" +
 				"- /user/create - params: [String login, String password] - method GET - returns user UUID or null if exists//temporary<br />" +
-				"- /user/getId - params: [String login] - GET - returns user UUID or null if not exists";
+				"- /user/getId - params: [String login] - GET - returns user UUID or null if not exists<br />" +
+				"- /product/list - params: null - GET - returns list of all products<br />" +
+				"- /product/create - params: [String name, Integer calories, Integer carbon, Integer protein, Integer fat, String category] - GET - returns UUID of product - if error - code 500<br />" +
+				"- /meal/get - params: [UUID userId] - GET - returns list of user Meals<br />";
 	}
 
 }

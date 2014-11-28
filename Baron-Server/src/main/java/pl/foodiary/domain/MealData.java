@@ -1,5 +1,8 @@
 package pl.foodiary.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -66,5 +69,10 @@ public class MealData {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@JsonProperty("user")
+	public UUID getUserId() {
+		return user.getId();
 	}
 }
