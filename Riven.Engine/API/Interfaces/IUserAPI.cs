@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace Riven.Engine.API {
 
@@ -25,6 +26,8 @@ namespace Riven.Engine.API {
 
         Guid Create(string login, string password);
         Guid GetId(string login);
+        IEnumerable<DB.Model.User> List();
+        bool Update(Guid id, string login, string password);
         bool Delete(Guid id);
 
     }

@@ -31,21 +31,6 @@ namespace Riven.Engine.API {
 
         public Riven.Engine.API.Support.User User { get; private set; }
 
-        public static void Main(string[] args) {
-            var provider = new GETDataProvider();
-            var uri = new Uri("http://foodiary.ddns.net:8080/");
-            var baron = new Baron(uri, provider);
-
-            Guid refId = baron.User.Create("bartqh", "abcd");
-            Guid curId = baron.User.GetId("bartqh");
-            if (refId == curId)
-                Console.WriteLine("OK");
-            Console.WriteLine(baron.User.Delete(refId));
-            Console.WriteLine("done!");
-            Console.ReadLine();
-
-        }
-
         private NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
     }
 }
