@@ -1,12 +1,11 @@
 package pl.foodiary.domain;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
-import java.io.IOException;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 /**

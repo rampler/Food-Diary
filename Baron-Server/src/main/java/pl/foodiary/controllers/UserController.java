@@ -30,6 +30,7 @@ public class UserController {
 			return user.getId();
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -37,7 +38,42 @@ public class UserController {
 	@RequestMapping(value = "/getId", method = RequestMethod.GET)
 	@ResponseBody
 	public UUID getUserId(@RequestParam("login") String login) {
-		return (userRepository.findOneByLogin(login) != null)?userRepository.findOneByLogin(login).getId():null;
+		return (userRepository.findOneByLogin(login) != null) ? userRepository.findOneByLogin(login).getId() : null;
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@ResponseBody
+	public Iterable<User> listUsers() {
+		return userRepository.findAll();
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean upadateUser(@RequestParam(value = "id", required = true) UUID id, @RequestParam(value = "login", required = false) String login, @RequestParam(value = "password", required = false) String password) {
+		try{
+			User user = userRepository.findOneById(id);
+			if(login != null) user.setLogin(login);
+			if(password != null) user.setPassword(password);
+			userRepository.save(user);
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean deleteUser(@RequestParam("id") UUID id) {
+		try {
+			userRepository.delete(userRepository.findOneById(id));
+			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

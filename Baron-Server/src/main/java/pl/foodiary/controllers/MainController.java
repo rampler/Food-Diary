@@ -22,10 +22,20 @@ public class MainController {
 				"<h2>API:</h2>" +
 				"- /user/create - params: [String login, String password] - method GET - returns user UUID or null if exists//temporary<br />" +
 				"- /user/getId - params: [String login] - GET - returns user UUID or null if not exists<br />" +
+				"- /user/list - params: null - GET - returns List of Users<br />" +
+				"- /user/update - params: required: [UUID id] nonRequired: [String login, String password] - GET - return true/false <br />" +
+				"- /user/delete - params: [UUID id] - GET - returns true/false<br />" +
 				"- /product/list - params: null - GET - returns list of all products<br />" +
 				"- /product/categories - params: null - returns list of possible categories<br />" +
 				"- /product/create - params: [String name, Integer calories, Integer carbon, Integer protein, Integer fat, String category] - GET - returns UUID of product - if error - code 500<br />" +
-				"- /meal/get - params: [UUID userId] - GET - returns list of user Meals<br />";
+				"- /product/update - params: required: [UUID id] nonRequired: [String name, Integer calories, Integer carbon, Integer protein, Integer fat, String category] - GET - returns true/false<br />" +
+				"- /product/delete - params: [UUID id] - GET - returns true/false<br />" +
+				"- /meal/get - params: [UUID userId] - GET - returns list of user Meals<br />" +
+				"- /meal/create - params [String name, Date consumption_date, UUID user_id] - GET - returns UUID or null<br />" +
+				"- /meal/list - params: null - GET - returns list of meals<br />" +
+				"- /meal/update - params: required: [UUID id] nonRequired: [String name, Date consumption_date, UUID user_id] - GET - returns true/false<br />" +
+				"- /meal/delete - params: [UUID id] - GET - returns true/false<br />" +
+				"";
 	}
 
 }
