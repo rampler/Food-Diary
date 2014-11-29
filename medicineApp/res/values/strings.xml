@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">medicineApp</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="title_activity_display_message">My Message</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
+    <string name="add_medicine_name">Medicine name</string>
+    <string name="add_company_name">Company name</string>
+    <string name="add_price">Price</string>
+    <string name="add_medicine_dosage">Dosage (pills a day)</string>
+    <string name="add_medicine_button">Add new medicine</string>
+</resources>
