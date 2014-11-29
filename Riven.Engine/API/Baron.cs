@@ -38,7 +38,7 @@ namespace Riven.Engine.API {
             var localization = new Uri(ServerAddress, "/user/getId");
             Logger.Info("Trying to get user id for '{0}' from '{1}'", login, localization.ToString());
 
-            var response = "{ id : " + Provider.Request(localization, "login", login) + " }";
+            var response = Provider.Request(localization, "login", login);
             Logger.Info("Response: " + response);
 
             if (response == string.Empty) {
