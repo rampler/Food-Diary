@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:weightSum="1">
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="223dp"
+            android:id="@+id/medicineListView" android:layout_weight="0.67"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText" android:editable="true" android:enabled="true"
+            android:hint="@string/edit_message" android:textAlignment="center" android:singleLine="false"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textCheck" android:layout_weight="0.15"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_send"
+            android:id="@+id/button" android:layout_gravity="center_horizontal"
+            android:onClick="sendMessage"/>
+</LinearLayout>
+
