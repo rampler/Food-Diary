@@ -35,10 +35,10 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/getId", method = RequestMethod.GET)
+	@RequestMapping(value = "/getId", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public UUID getUserId(@RequestParam("login") String login) {
-		return (userRepository.findOneByLogin(login) != null) ? userRepository.findOneByLogin(login).getId() : null;
+	public String getUserId(@RequestParam("login") String login) {
+		return (userRepository.findOneByLogin(login) != null) ? "{\"id\":\"" + userRepository.findOneByLogin(login).getId() + "\"}" : null;
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
