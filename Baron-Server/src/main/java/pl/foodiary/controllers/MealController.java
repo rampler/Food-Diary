@@ -40,47 +40,47 @@ public class MealController {
 		return mealRepository.findAll();
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public UUID createMeal(@RequestParam("name") String name, @RequestParam("consumption_date")Date date, @RequestParam("user_id") UUID userId){
+	public String createMeal(@RequestParam("name") String name, @RequestParam("consumption_date") Date date, @RequestParam("user_id") UUID userId) {
 		try {
 			Meal meal = new Meal(UUID.randomUUID(), name, date, userRepository.findOneById(userId));
 			mealRepository.save(meal);
-			return meal.getId();
+			return "{\"id\":\"" + meal.getId() + "\"}";
 		}
-		catch(Exception e) {
-			e.printStackTrace();
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/update", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public boolean updateMeal(@RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "consumption_date", required = false) Date date, @RequestParam(value = "user_id", required = false) UUID userId) {
+	public String updateMeal(@RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "consumption_date", required = false) Date date, @RequestParam(value = "user_id", required = false) UUID userId) {
 		try {
 			Meal meal = mealRepository.findOneById(id);
-			if(name != null) meal.setName(name);
-			if(date != null) meal.setConsumptionDay(date);
-			if(userId != null) meal.setUser(userRepository.findOneById(userId));
+			if (name != null) meal.setName(name);
+			if (date != null) meal.setConsumptionDay(date);
+			if (userId != null) meal.setUser(userRepository.findOneById(userId));
 			mealRepository.save(meal);
-			return true;
+			return "{\"result\":true}";
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return false;
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
 		}
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public boolean deleteMeal(@RequestParam("id") UUID id) {
-		try{
+	public String deleteMeal(@RequestParam("id") UUID id) {
+		try {
 			mealRepository.delete(mealRepository.findOneById(id));
-			return true;
+			return "{\"result\":true}";
 		}
-		catch(Exception e ) {
-			e.printStackTrace();
-			return false;
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
 		}
 	}
 }

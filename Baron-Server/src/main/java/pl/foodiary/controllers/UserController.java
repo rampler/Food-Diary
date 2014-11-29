@@ -21,16 +21,16 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public UUID addUser(@RequestParam("login") String login, @RequestParam("password") String password) {
+	public String addUser(@RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
 			User user = new User(UUID.randomUUID(), login, password);
 			userRepository.save(user);
-			return user.getId();
+			return "{\"id\":\"" + user.getId() + "\"}";
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return null;
 		}
 	}
@@ -47,32 +47,32 @@ public class UserController {
 		return userRepository.findAll();
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/update", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public boolean upadateUser(@RequestParam(value = "id", required = true) UUID id, @RequestParam(value = "login", required = false) String login, @RequestParam(value = "password", required = false) String password) {
-		try{
+	public String upadateUser(@RequestParam(value = "id", required = true) UUID id, @RequestParam(value = "login", required = false) String login, @RequestParam(value = "password", required = false) String password) {
+		try {
 			User user = userRepository.findOneById(id);
-			if(login != null) user.setLogin(login);
-			if(password != null) user.setPassword(password);
+			if (login != null) user.setLogin(login);
+			if (password != null) user.setPassword(password);
 			userRepository.save(user);
-			return true;
+			return "{\"result\":true}";
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return false;
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
 		}
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public boolean deleteUser(@RequestParam("id") UUID id) {
+	public String deleteUser(@RequestParam("id") UUID id) {
 		try {
 			userRepository.delete(userRepository.findOneById(id));
-			return true;
+			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
 		}
 	}
 

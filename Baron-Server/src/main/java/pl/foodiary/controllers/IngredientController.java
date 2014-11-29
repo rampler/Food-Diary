@@ -29,17 +29,17 @@ public class IngredientController {
 	@Autowired
 	private MealRepository mealRepository;
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public UUID createIngredient(@RequestParam("product_id") UUID productId, @RequestParam("weight") Integer weight, @RequestParam("meal_id") UUID mealId) {
-		try{
+	public String createIngredient(@RequestParam("product_id") UUID productId, @RequestParam("weight") Integer weight, @RequestParam("meal_id") UUID mealId) {
+		try {
 			Ingredient ingredient = new Ingredient(UUID.randomUUID(), productRepository.findOneById(productId), weight, mealRepository.findOneById(mealId));
 			ingredientRepository.save(ingredient);
-			return ingredient.getId();
+			return "{\"id\":\"" + ingredient.getId() + "\"}";
 
 		}
-		catch(Exception e){
-			e.printStackTrace();
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return null;
 		}
 	}
@@ -50,32 +50,32 @@ public class IngredientController {
 		return ingredientRepository.findAll();
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/update", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public boolean updateIngredient(@RequestParam("id") UUID id, @RequestParam(value = "product_id", required = false) UUID productId, @RequestParam(value = "weight", required = false) Integer weight, @RequestParam(value = "meal_id", required = false) UUID mealId) {
-		try{
+	public String updateIngredient(@RequestParam("id") UUID id, @RequestParam(value = "product_id", required = false) UUID productId, @RequestParam(value = "weight", required = false) Integer weight, @RequestParam(value = "meal_id", required = false) UUID mealId) {
+		try {
 			Ingredient ingredient = ingredientRepository.findOneById(id);
-			if(productId != null) ingredient.setProduct(productRepository.findOneById(productId));
-			if(weight != null) ingredient.setWeight(weight);
-			if(mealId != null) ingredient.setMeal(mealRepository.findOneById(mealId));
-			return true;
+			if (productId != null) ingredient.setProduct(productRepository.findOneById(productId));
+			if (weight != null) ingredient.setWeight(weight);
+			if (mealId != null) ingredient.setMeal(mealRepository.findOneById(mealId));
+			return "{\"result\":true}";
 		}
-		catch(Exception e){
-			e.printStackTrace();
-			return false;
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
 		}
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public boolean deleteIngredient(@RequestParam("id") UUID id) {
-		try{
+	public String deleteIngredient(@RequestParam("id") UUID id) {
+		try {
 			ingredientRepository.delete(ingredientRepository.findOneById(id));
-			return true;
+			return "{\"result\":true}";
 		}
-		catch(Exception e){
-			e.printStackTrace();
-			return false;
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
 		}
 	}
 }
