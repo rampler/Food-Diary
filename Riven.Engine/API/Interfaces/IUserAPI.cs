@@ -19,12 +19,13 @@ using System;
 namespace Riven.Engine.API {
 
     /// <summary>
-    /// Provides all supported REST methods from Baron.
+    /// Provides REST methods for user.
     /// </summary>
-    public interface IBaronAPI {
+    public interface IUserAPI {
 
-        Guid UserGetId(string login);
-        bool UserDelete(Guid id);
+        Guid Create(string login, string password);
+        Guid GetId(string login);
+        bool Delete(Guid id);
 
     }
 }

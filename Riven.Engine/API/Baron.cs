@@ -15,56 +15,38 @@
 */
 
 using System;
+using System.Net;
 using Riven.Engine.DB.Provider;
-using Newtonsoft.Json.Linq;
 
 namespace Riven.Engine.API {
 
     /// <summary>
-    /// Supports all Baron actions.
+    /// Contains all supported parts of REST methods from Baron.
     /// </summary>
-    public class Baron : IBaronAPI {
-
-        private Uri ServerAddress;
-        private IDataProvider Provider;
-        private NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
+    public class Baron {
+        
         public Baron(Uri serverAddress, IDataProvider provider) {
-            ServerAddress = serverAddress;
-            Provider = provider;
+            User = new Support.User(serverAddress, provider);
         }
 
-        public Guid UserGetId(string login) {
-            var localization = new Uri(ServerAddress, "/user/getId");
-            Logger.Info("Trying to get user id for '{0}' from '{1}'", login, localization.ToString());
+        public Riven.Engine.API.Support.User User { get; private set; }
 
-            var response = Provider.Request(localization, "login", login);
-            Logger.Info("Response: " + response);
+        public static void Main(string[] args) {
+            var provider = new GETDataProvider();
+            var uri = new Uri("http://foodiary.ddns.net:8080/");
+            var baron = new Baron(uri, provider);
 
-            if (response == string.Empty) {
-                Logger.Warn("User '{0}' does not exists!", login);
-                return Guid.Empty;
-            }
+            Guid refId = baron.User.Create("bartqh", "abcd");
+            Guid curId = baron.User.GetId("bartqh");
+            if (refId == curId)
+                Console.WriteLine("OK");
+            Console.WriteLine(baron.User.Delete(refId));
+            Console.WriteLine("done!");
+            Console.ReadLine();
 
-            JObject obj = JObject.Parse(response);
-            return Guid.Parse((string)obj["id"]);
         }
 
-        public bool UserDelete(Guid id) {
-            var localization = new Uri(ServerAddress, "/user/delete");
-            Logger.Info("Trying to delete user with id = '{0}' using '{1}'", id, localization.ToString());
-
-            var response = Provider.Request(localization, "id", id.ToString());
-            Logger.Info("Response: " + response);
-
-            if (response == string.Empty) {
-                Logger.Warn("User '{0}' does not exists!", id);
-                return false;
-            }
-
-            JObject obj = JObject.Parse(response);
-            return bool.Parse((string)obj["result"]);
-        }
+        private NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
     }
 }
 
