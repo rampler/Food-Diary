@@ -41,7 +41,7 @@ namespace Riven.Engine.API {
             var response = "{ id : " + Provider.Request(localization, "login", login) + " }";
             Logger.Info("Response: " + response);
 
-            if (response == "{ id :  }") {
+            if (response == string.Empty) {
                 Logger.Warn("User '{0}' does not exists!", login);
                 return Guid.Empty;
             }
@@ -54,10 +54,10 @@ namespace Riven.Engine.API {
             var localization = new Uri(ServerAddress, "/user/delete");
             Logger.Info("Trying to delete user with id = '{0}' using '{1}'", id, localization.ToString());
 
-            var response = "{ result : " + Provider.Request(localization, "id", id.ToString()) + " }";
+            var response = Provider.Request(localization, "id", id.ToString());
             Logger.Info("Response: " + response);
 
-            if (response == "{ result :  }") {
+            if (response == string.Empty) {
                 Logger.Warn("User '{0}' does not exists!", id);
                 return false;
             }
