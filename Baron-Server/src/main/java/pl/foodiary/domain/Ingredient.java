@@ -19,7 +19,7 @@ public class Ingredient {
 	private Product product;
 
 	@Column
-	private int weight;
+	private Integer weight;
 
 	@ManyToOne
 	private Meal meal;
@@ -27,7 +27,7 @@ public class Ingredient {
 	public Ingredient() {
 	}
 
-	public Ingredient(UUID id, Product product, int weight, Meal meal) {
+	public Ingredient(UUID id, Product product, Integer weight, Meal meal) {
 		this.id = id;
 		this.product = product;
 		this.weight = weight;
@@ -50,11 +50,11 @@ public class Ingredient {
 		this.product = product;
 	}
 
-	public int getWeight() {
+	public Integer getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
 
