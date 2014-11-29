@@ -5,14 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.foodiary.domain.*;
-import pl.foodiary.repositories.MealDataRepository;
+import pl.foodiary.repositories.IngredientRepository;
 import pl.foodiary.repositories.MealRepository;
 import pl.foodiary.repositories.ProductRepository;
 import pl.foodiary.repositories.UserRepository;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,10 +24,10 @@ public class TestController {
 	private ProductRepository productRepository;
 
 	@Autowired
-	private MealRepository mealRepository;
+	private IngredientRepository ingredientRepository;
 
 	@Autowired
-	private MealDataRepository mealDataRepository;
+	private MealRepository mealRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -44,18 +42,18 @@ public class TestController {
 
 	@RequestMapping("/meal")
 	@ResponseBody
-	Meal testMeal() {
+	Ingredient testMeal() {
 		User user = new User(UUID.randomUUID(), "Testowy", "hahaha");
 		userRepository.save(user);
 
-		MealData mealData = new MealData(UUID.randomUUID(), "Wołowina z mlekiem", new Date(), user);
-		mealDataRepository.save(mealData);
+		Meal mealData = new Meal(UUID.randomUUID(), "Wołowina z mlekiem", new Date(), user);
+		mealRepository.save(mealData);
 
 		Product product = new Product(UUID.randomUUID(), "Wołowina", 100, 101, 102, 103, ProductCategory.MEAT);
 		productRepository.save(product);
 
-		Meal meal = new Meal(UUID.randomUUID(), product, 300, mealData);
-		mealRepository.save(meal);
+		Ingredient meal = new Ingredient(UUID.randomUUID(), product, 300, mealData);
+		ingredientRepository.save(meal);
 
 		return meal;
 	}

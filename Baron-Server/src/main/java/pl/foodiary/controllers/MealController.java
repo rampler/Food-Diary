@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.foodiary.domain.Meal;
-import pl.foodiary.domain.MealData;
 import pl.foodiary.domain.User;
-import pl.foodiary.repositories.MealDataRepository;
 import pl.foodiary.repositories.MealRepository;
 import pl.foodiary.repositories.UserRepository;
 
@@ -23,15 +21,15 @@ import java.util.UUID;
 public class MealController {
 
 	@Autowired
-	private MealDataRepository mealDataRepository;
+	private MealRepository mealRepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	@ResponseBody
-	public Iterable<MealData> getUsersMeals(@RequestParam("userId") UUID userId) {
+	public Iterable<Meal> getUsersMeals(@RequestParam("userId") UUID userId) {
 		User user = userRepository.findOneById(userId);
-		return mealDataRepository.findByUser(user);
+		return mealRepository.findByUser(user);
 	}
 }

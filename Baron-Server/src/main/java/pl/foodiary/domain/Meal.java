@@ -1,8 +1,12 @@
 package pl.foodiary.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -15,23 +19,24 @@ public class Meal {
 	@Type(type = "pg-uuid")
 	private UUID id;
 
-	@OneToOne
-	private Product product;
+	@Column
+	private String name;
 
 	@Column
-	private int weight;
+	@Type(type = "date")
+	private Date consumptionDay;
 
 	@ManyToOne
-	private MealData mealData;
+	private User user;
 
 	public Meal() {
 	}
 
-	public Meal(UUID id, Product product, int weight, MealData mealData) {
+	public Meal(UUID id, String name, Date consumptionDay, User user) {
 		this.id = id;
-		this.product = product;
-		this.weight = weight;
-		this.mealData = mealData;
+		this.name = name;
+		this.consumptionDay = consumptionDay;
+		this.user = user;
 	}
 
 	public UUID getId() {
@@ -42,27 +47,32 @@ public class Meal {
 		this.id = id;
 	}
 
-	public Product getProduct() {
-		return product;
+	public String getName() {
+		return name;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public int getWeight() {
-		return weight;
+	public Date getConsumptionDay() {
+		return consumptionDay;
 	}
 
-	public void setWeight(int weight) {
-		this.weight = weight;
+	public void setConsumptionDay(Date consumptionDay) {
+		this.consumptionDay = consumptionDay;
 	}
 
-	public MealData getMealData() {
-		return mealData;
+	public User getUser() {
+		return user;
 	}
 
-	public void setMealData(MealData mealData) {
-		this.mealData = mealData;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@JsonProperty("user")
+	public UUID getUserId() {
+		return user.getId();
 	}
 }

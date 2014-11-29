@@ -10,6 +10,7 @@ import pl.foodiary.domain.Product;
 import pl.foodiary.domain.ProductCategory;
 import pl.foodiary.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -36,6 +37,12 @@ public class ProductController {
 		Product product = new Product(UUID.randomUUID(), name, calories, carbon, protein, fat, ProductCategory.valueOf(category));
 		productRepository.save(product);
 		return product.getId();
+	}
+
+	@RequestMapping(value = "/categories", method = RequestMethod.GET)
+	@ResponseBody
+	public ProductCategory[] getProductCategories() {
+		return ProductCategory.values();
 	}
 
 
