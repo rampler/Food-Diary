@@ -51,8 +51,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Baron.cs" />
+    <Compile Include="API\Interfaces\IMealAPI.cs" />
+    <Compile Include="API\Interfaces\IProductAPI.cs" />
+    <Compile Include="API\Interfaces\IProfileAPI.cs" />
     <Compile Include="API\Support\User.cs" />
     <Compile Include="API\Interfaces\IUserAPI.cs" />
+    <Compile Include="DB\Model\Ingredient.cs" />
+    <Compile Include="DB\Model\Meal.cs" />
+    <Compile Include="DB\Model\Product.cs" />
+    <Compile Include="DB\Model\ProductCategory.cs" />
+    <Compile Include="DB\Model\Profile.cs" />
     <Compile Include="DB\Provider\IDataProvider.cs" />
     <Compile Include="DB\Model\User.cs" />
     <Compile Include="DB\Provider\GETDataProvider.cs" />
