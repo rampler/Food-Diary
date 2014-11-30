@@ -1,5 +1,6 @@
 package pl.foodiary.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,6 +15,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "meal")
+@JsonIgnoreProperties({ "user" })
 public class Meal {
 	@Id
 	@Type(type = "pg-uuid")

@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.foodiary.domain.Profile;
 import pl.foodiary.domain.User;
+import pl.foodiary.exceptions.NotAuthorizedException;
+import pl.foodiary.repositories.ProfileRepository;
 import pl.foodiary.repositories.UserRepository;
 import pl.foodiary.services.SessionService;
 
@@ -24,6 +27,9 @@ public class UserController {
 	private UserRepository userRepository;
 
 	@Autowired
+	private ProfileRepository profileRepository;
+
+	@Autowired
 	private SessionService sessionService;
 
 	//API 2.0
@@ -32,6 +38,22 @@ public class UserController {
 	public void deleteAccount(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
 		userRepository.delete(user);
+	}
+
+	@RequestMapping(value = "/hasProfile", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public String hasProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
+		try {
+			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			Long count = profileRepository.countByUser(user);
+			if (count == 1) return "{\"result\":true}";
+			else return "{\"result\":false}";
+		}
+		catch (NotAuthorizedException ex){ throw ex; }
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
+		}
 	}
 
 	//API 1.0
