@@ -20,7 +20,29 @@ public class MainController {
 	@RequestMapping("/")
 	@ResponseBody
 	String home() {
-		return "<h1>Welcome on Food Diary Server - Baron!</h1>" +
+		return "<style type=\"text/css\">\n" +
+				"table, td\n" +
+				"{\n" +
+				"    border-color: #000;\n" +
+				"    border-style: solid;\n" +
+				"}\n" +
+				"\n" +
+				"table\n" +
+				"{\n" +
+				"    border-width: 0 0 1px 1px;\n" +
+				"    border-spacing: 0;\n" +
+				"    border-collapse: collapse;\n" +
+				"}\n" +
+				"\n" +
+				"td\n" +
+				"{\n" +
+				"    margin: 0;\n" +
+				"    padding: 4px;\n" +
+				"    border-width: 1px 1px 0 0;\n" +
+				"    background-color: #eee;\n" +
+				"}\n" +
+				"</style>" +
+				"<h1>Welcome on Food Diary Server - Baron!</h1>" +
 				"<h2>LET'S THE DEATH MARCH BEGIN!</h2>" +
 				(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())) + "<br />Version: 0.8.0" +
 				Application.mainAPI;
