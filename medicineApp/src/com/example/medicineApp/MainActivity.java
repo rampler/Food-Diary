@@ -1,7 +1,5 @@
 package com.example.medicineApp;
 
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,12 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 public class MainActivity extends Activity {
 
@@ -38,8 +34,6 @@ public class MainActivity extends Activity {
     private CustomListAdapter listAdapter;
     private Globals g;
 
-    // temporary string to show the parsed response
-    private String jsonResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,81 +51,15 @@ public class MainActivity extends Activity {
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
 
-        /*btnMakeObjectRequest.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // making json object request
-                makeJsonObjectRequest();
-            }
-        });*/
-
         btnMakeArrayRequest.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // making json array request
                 makeJsonArrayRequest();
             }
         });
 
     }
-
-    /**
-     * Method to make json object request where json response starts wtih {
-     * */
-    private void makeJsonObjectRequest() {
-        showpDialog();
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,
-                urlJsonObj, null, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(TAG, response.toString());
-
-                try {
-                    // Parsing json object response
-                    // response will be a json object
-                    String id = response.getString("id");
-                    String name = response.getString("name");
-                    String calories = response.getString("calories");
-                    String carbon = response.getString("carbon");
-                    String protein = response.getString("protein");
-                    String fat = response.getString("fat");
-
-                    jsonResponse = "";
-                    jsonResponse += "Id:" + id + "\n\n";
-                    jsonResponse += "Name: " + name + "\n\n";
-                    jsonResponse += "Calories: " + calories + "\n\n";
-                    jsonResponse += "Carbon: " + carbon + "\n\n";
-                    jsonResponse += "Protein: " + protein + "\n\n";
-                    jsonResponse += "Fat:" + fat + "\n\n";
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(),
-                            "Error: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-                hidepDialog();
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
-                // hide the progress dialog
-                hidepDialog();
-            }
-        });
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq);
-    }
-
     /**
      * Method to make json array request where response starts with [
      * */
@@ -145,9 +73,6 @@ public class MainActivity extends Activity {
                         Log.d(TAG, response.toString());
 
                         try {
-                            // Parsing json array response
-                            // loop through each json object
-                            jsonResponse = "";
                             for (int i = 0; i < response.length(); i++) {
 
                                 JSONObject product = (JSONObject) response
@@ -156,12 +81,12 @@ public class MainActivity extends Activity {
                                 String id = product.getString("id");
                                 String name = product.getString("name");
                                 String calories = product.getString("calories");
-                                String carbon = product.getString("carbon");
+                                String carbs = product.getString("carbs");
                                 String protein = product.getString("protein");
                                 String fat = product.getString("fat");
                                 String type = product.getString("category");
 
-                                Product productObject = new Product(id, name, calories, carbon, protein, fat, type);
+                                Product productObject = new Product(id, name, calories, carbs, protein, fat, type);
                                 if (!g.getProducts().contains(productObject)) {
                                     g.addProduct(productObject);
                                 }
@@ -203,4 +128,7 @@ public class MainActivity extends Activity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
+
+
 }

@@ -11,8 +11,8 @@
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText" android:editable="true" android:enabled="true"
-            android:hint="@string/edit_message" android:textAlignment="center" android:singleLine="false"/>
+            android:id="@+id/userIdEdit" android:editable="true" android:enabled="true"
+            android:hint="" android:textAlignment="center" android:singleLine="false"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_send"
+            android:text=""
             android:id="@+id/button" android:layout_gravity="center_horizontal"
             android:onClick="sendMessage"/>
 </LinearLayout>

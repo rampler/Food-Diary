@@ -1,7 +1,6 @@
 package com.example.medicineApp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,6 +10,7 @@ public class Globals {
 
     private static Globals instance = null;
     private List<Product> products = new ArrayList<Product>();
+    private String sessionId = "";
 
     private Globals(){}
 
@@ -31,5 +31,13 @@ public class Globals {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }
