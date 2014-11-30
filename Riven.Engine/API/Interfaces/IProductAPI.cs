@@ -24,10 +24,10 @@ namespace Riven.Engine.API {
     /// </summary>
     public interface IProductAPI {
 
-        Guid Create(string name, int calories, int carbon, int protein, int fat, string category);
+        Guid Create(DB.Model.Product product);
         IEnumerable<DB.Model.Product> List();
         IEnumerable<DB.Model.ProductCategory> Categories();
-        bool Update(Guid id, string name, int calories, int carbon, int protein, int fat, string category);
+        bool Update(Guid id, DB.Model.Product product);
         bool Delete(Guid id);
 
     }

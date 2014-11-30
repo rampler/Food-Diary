@@ -24,11 +24,11 @@ namespace Riven.Engine.API {
     /// </summary>
     public interface IProfileAPI {
 
-        Guid Create(string firstName, string lastName, double weight, double caloriesCounter, int age, Guid userId);
+        Guid Create(DB.Model.Profile profile, Guid userId);
         IEnumerable<DB.Model.Profile> List();
-        bool Update(Guid id, string firstName, string lastName, double weight, double caloriesCounter, int age, Guid userId);
+        bool Update(Guid id, DB.Model.Profile profile, Guid userId);
         bool Delete(Guid id);
-        bool IsUserHave(Guid id);
+        bool IsUserHave(Guid userId);
 
     }
 }
