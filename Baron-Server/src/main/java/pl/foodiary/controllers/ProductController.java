@@ -30,8 +30,8 @@ public class ProductController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String createProduct(@RequestParam("name") String name, @RequestParam("calories") Double calories, @RequestParam("fat") Double fat, @RequestParam("carbon") Double carbon, @RequestParam("protein") Double protein, @RequestParam("category") String category) {
-		Product product = new Product(UUID.randomUUID(), name, calories, carbon, protein, fat, ProductCategory.valueOf(category));
+	public String createProduct(@RequestParam("name") String name, @RequestParam("calories") Double calories, @RequestParam("fat") Double fat, @RequestParam("carbs") Double carbs, @RequestParam("protein") Double protein, @RequestParam("category") String category) {
+		Product product = new Product(UUID.randomUUID(), name, calories, carbs, protein, fat, ProductCategory.valueOf(category));
 		productRepository.save(product);
 		return "{\"id\":\"" + product.getId() + "\"}";
 	}
