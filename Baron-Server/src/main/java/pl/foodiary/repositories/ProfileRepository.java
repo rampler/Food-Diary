@@ -12,6 +12,8 @@ import java.util.UUID;
  */
 @Repository
 public interface ProfileRepository extends PagingAndSortingRepository<Profile, Long> {
+	Long countByUser(User user);
+
 	Profile findOneById(UUID id);
 	Profile findOneByUser(User user);
 }

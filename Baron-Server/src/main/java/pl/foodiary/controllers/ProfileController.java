@@ -38,6 +38,22 @@ public class ProfileController {
 		}
 	}
 
+	@RequestMapping(value = "/isUserHave",method = RequestMethod.GET,produces = "application/json")
+	@ResponseBody
+	public String isUserHaveProfile(@RequestParam("user_id") UUID userId) {
+		try {
+			Long count = profileRepository.countByUser(userRepository.findOneById(userId));
+			if(count == 1)
+				return "{\"result\":true}";
+			else
+				return "{\"result\":false}";
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
+		}
+	}
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
 	public Iterable<Profile> listProfiles() {
