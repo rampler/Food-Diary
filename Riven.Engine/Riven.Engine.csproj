@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D5B985C9-E4BD-4092-B556-294D33B3A986}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Riven.Engine</RootNamespace>
     <AssemblyName>Riven.Engine</AssemblyName>
@@ -30,8 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>Riven.Engine.API.Baron</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -54,6 +53,7 @@
     <Compile Include="API\Interfaces\IMealAPI.cs" />
     <Compile Include="API\Interfaces\IProductAPI.cs" />
     <Compile Include="API\Interfaces\IProfileAPI.cs" />
+    <Compile Include="API\Support\Product.cs" />
     <Compile Include="API\Support\Profile.cs" />
     <Compile Include="API\Support\User.cs" />
     <Compile Include="API\Interfaces\IUserAPI.cs" />

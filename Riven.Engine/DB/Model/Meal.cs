@@ -26,6 +26,11 @@ namespace Riven.Engine.DB.Model {
         public string Name { get; set; }
         public DateTime ConsumptionDay { get; set; }
         public User User { get; set; }
+
+        public override string ToString() {
+            return string.Format("[MEAL: {0}; {1}]", Name, ConsumptionDay);
+        }
+
     }
 
 }

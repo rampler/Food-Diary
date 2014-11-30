@@ -24,11 +24,16 @@ namespace Riven.Engine.DB.Model {
     public class Product {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public int Calories { get; set; }
-        public int Carbon { get; set; }
-        public int Protein { get; set; }
-        public int Fat { get; set; }
+        public double Calories { get; set; }
+        public double Carbon { get; set; }
+        public double Protein { get; set; }
+        public double Fat { get; set; }
         public ProductCategory Category { get; set; }
+
+        public override string ToString() {
+            return string.Format("[PRODUCT: {0}; {1}]", Name, Category.ToString());
+        }
+
     }
 
 }
