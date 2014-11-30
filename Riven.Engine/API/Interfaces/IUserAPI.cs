@@ -15,23 +15,21 @@
 */
 
 using System;
-using System.Net;
-using Riven.Engine.DB.Provider;
+using System.Collections.Generic;
 
 namespace Riven.Engine.API {
 
     /// <summary>
-    /// Contains all supported parts of REST methods from Baron.
+    /// Provides REST methods for user.
     /// </summary>
-    public class Baron {
-        
-        public Baron(Uri serverAddress, IDataProvider provider) {
-            User = new Support.User(serverAddress, provider);
-        }
+    public interface IUserAPI {
 
-        public Riven.Engine.API.Support.User User { get; private set; }
+        Guid Create(string login, string password);
+        Guid GetId(string login);
+        IEnumerable<DB.Model.User> List();
+        bool Update(Guid id, string login, string password);
+        bool Delete(Guid id);
 
-        private NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
     }
 }
 

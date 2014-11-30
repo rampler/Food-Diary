@@ -15,24 +15,19 @@
 */
 
 using System;
-using System.Net;
-using Riven.Engine.DB.Provider;
 
-namespace Riven.Engine.API {
+namespace Riven.Engine.DB.Model {
 
     /// <summary>
-    /// Contains all supported parts of REST methods from Baron.
+    /// Representation of Meal.
     /// </summary>
-    public class Baron {
-        
-        public Baron(Uri serverAddress, IDataProvider provider) {
-            User = new Support.User(serverAddress, provider);
-        }
-
-        public Riven.Engine.API.Support.User User { get; private set; }
-
-        private NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    public class Meal {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public DateTime ConsumptionDay { get; set; }
+        public User User { get; set; }
     }
+
 }
 
 /* by Bartłomiej Hebda | 2014 */

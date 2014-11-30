@@ -65,8 +65,10 @@ namespace Riven.Engine.DB.Provider {
 
                 query.Append("?");
                 for (int i = 0; i < args.Length; i++) {
-                    query.Append(args[i]);
-                    query.Append(i % 2 == 0 ? "=" : "&");
+                    if (args[i] != null) {
+                        query.Append(args[i]);
+                        query.Append(i % 2 == 0 ? "=" : "&");
+                    }
                 }
 
                 query.Remove(query.Length - 1, 1);

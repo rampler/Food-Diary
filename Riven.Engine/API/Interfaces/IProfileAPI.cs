@@ -15,23 +15,21 @@
 */
 
 using System;
-using System.Net;
-using Riven.Engine.DB.Provider;
+using System.Collections.Generic;
 
 namespace Riven.Engine.API {
 
     /// <summary>
-    /// Contains all supported parts of REST methods from Baron.
+    /// Provides REST methods for Profile.
     /// </summary>
-    public class Baron {
-        
-        public Baron(Uri serverAddress, IDataProvider provider) {
-            User = new Support.User(serverAddress, provider);
-        }
+    public interface IProfileAPI {
 
-        public Riven.Engine.API.Support.User User { get; private set; }
+        Guid Create(string firstName, string lastName, double weight, double caloriesCounter, int age, Guid userId);
+        IEnumerable<DB.Model.Profile> List();
+        bool Update(Guid id, string firstName, string lastName, double weight, double caloriesCounter, int age, Guid userId);
+        bool Delete(Guid id);
+        bool IsUserHave(Guid id);
 
-        private NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
     }
 }
 

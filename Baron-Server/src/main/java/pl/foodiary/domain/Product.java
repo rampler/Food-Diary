@@ -16,20 +16,20 @@ public class Product {
 	@Type(type = "pg-uuid")
 	private UUID id;
 
-	@Column(length = 255)
+	@Column(length = 255, unique = true)
 	private String name;
 
 	@Column
-	private Integer calories;
+	private Double calories;
 
 	@Column
-	private Integer carbon;
+	private Double carbs;
 
 	@Column
-	private Integer protein;
+	private Double protein;
 
 	@Column
-	private Integer fat;
+	private Double fat;
 
 	@Column
 	@Enumerated(EnumType.STRING)
@@ -38,11 +38,11 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(UUID id, String name, Integer calories, Integer carbon, Integer protein, Integer fat, ProductCategory category) {
+	public Product(UUID id, String name, Double calories, Double carbs, Double protein, Double fat, ProductCategory category) {
 		this.id = id;
 		this.name = name;
 		this.calories = calories;
-		this.carbon = carbon;
+		this.carbs = carbs;
 		this.protein = protein;
 		this.fat = fat;
 		this.category = category;
@@ -64,35 +64,35 @@ public class Product {
 		this.name = name;
 	}
 
-	public Integer getCalories() {
+	public Double getCalories() {
 		return calories;
 	}
 
-	public void setCalories(Integer calories) {
+	public void setCalories(Double calories) {
 		this.calories = calories;
 	}
 
-	public Integer getCarbon() {
-		return carbon;
+	public Double getCarbs() {
+		return carbs;
 	}
 
-	public void setCarbon(Integer carbon) {
-		this.carbon = carbon;
+	public void setCarbs(Double carbs) {
+		this.carbs = carbs;
 	}
 
-	public Integer getProtein() {
+	public Double getProtein() {
 		return protein;
 	}
 
-	public void setProtein(Integer protein) {
+	public void setProtein(Double protein) {
 		this.protein = protein;
 	}
 
-	public Integer getFat() {
+	public Double getFat() {
 		return fat;
 	}
 
-	public void setFat(Integer fat) {
+	public void setFat(Double fat) {
 		this.fat = fat;
 	}
 

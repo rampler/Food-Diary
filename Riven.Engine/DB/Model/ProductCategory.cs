@@ -15,24 +15,16 @@
 */
 
 using System;
-using System.Net;
-using Riven.Engine.DB.Provider;
 
-namespace Riven.Engine.API {
+namespace Riven.Engine.DB.Model {
 
     /// <summary>
-    /// Contains all supported parts of REST methods from Baron.
+    /// Representation of ProductCategory.
     /// </summary>
-    public class Baron {
-        
-        public Baron(Uri serverAddress, IDataProvider provider) {
-            User = new Support.User(serverAddress, provider);
-        }
-
-        public Riven.Engine.API.Support.User User { get; private set; }
-
-        private NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    public enum ProductCategory {
+       MEAT, MILK, VEGETABLE
     }
+
 }
 
 /* by Bartłomiej Hebda | 2014 */

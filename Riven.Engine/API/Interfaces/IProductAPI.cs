@@ -15,16 +15,20 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace Riven.Engine.API {
 
     /// <summary>
-    /// Provides all supported REST methods from Baron.
+    /// Provides REST methods for product.
     /// </summary>
-    public interface IBaronAPI {
+    public interface IProductAPI {
 
-        Guid UserGetId(string login);
-        bool UserDelete(Guid id);
+        Guid Create(string name, int calories, int carbon, int protein, int fat, string category);
+        IEnumerable<DB.Model.Product> List();
+        IEnumerable<DB.Model.ProductCategory> Categories();
+        bool Update(Guid id, string name, int calories, int carbon, int protein, int fat, string category);
+        bool Delete(Guid id);
 
     }
 }

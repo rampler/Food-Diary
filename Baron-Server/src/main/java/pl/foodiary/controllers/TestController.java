@@ -10,6 +10,7 @@ import pl.foodiary.repositories.MealRepository;
 import pl.foodiary.repositories.ProductRepository;
 import pl.foodiary.repositories.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.UUID;
 
@@ -35,7 +36,7 @@ public class TestController {
 	@RequestMapping("/product")
 	@ResponseBody
 	Product testProduct() {
-		Product product = new Product(UUID.randomUUID(), "Kurczak", 100, 101, 102, 103, ProductCategory.MEAT);
+		Product product = new Product(UUID.randomUUID(), "Kurczak", 100.0, 101.0, 102.0, 103.0, ProductCategory.MEAT);
 		productRepository.save(product);
 		return product;
 	}
@@ -43,18 +44,24 @@ public class TestController {
 	@RequestMapping("/meal")
 	@ResponseBody
 	Ingredient testMeal() {
-		User user = new User(UUID.randomUUID(), "Testowy", "hahaha");
+		User user = new User(UUID.randomUUID(), "Testowy", "hahaha", "test@test.pl");
 		userRepository.save(user);
 
 		Meal mealData = new Meal(UUID.randomUUID(), "Wołowina z mlekiem", new Date(), user);
 		mealRepository.save(mealData);
 
-		Product product = new Product(UUID.randomUUID(), "Wołowina", 100, 101, 102, 103, ProductCategory.MEAT);
+		Product product = new Product(UUID.randomUUID(), "Wołowina", 100.0, 101.0, 102.0, 103.0, ProductCategory.MEAT);
 		productRepository.save(product);
 
 		Ingredient meal = new Ingredient(UUID.randomUUID(), product, 300, mealData);
 		ingredientRepository.save(meal);
 
 		return meal;
+	}
+
+	@RequestMapping("/ip")
+	@ResponseBody
+	public String getIp(HttpServletRequest request) {
+		return request.getRemoteAddr();
 	}
 }
