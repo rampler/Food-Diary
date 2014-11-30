@@ -40,7 +40,7 @@ public class IngredientController {
 	//API 2.0
 	@RequestMapping(value = "/add", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String addIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("productId") UUID productId, @RequestParam("weight") Integer weight, @RequestParam("mealId") UUID mealId) {
+	public String addIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("productId") UUID productId, @RequestParam("weight") Double weight, @RequestParam("mealId") UUID mealId) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
 			Meal meal = mealRepository.findOneById(mealId);
@@ -61,7 +61,7 @@ public class IngredientController {
 
 	@RequestMapping(value = "/change", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String changeIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "weight", required = false) Integer weight) {
+	public String changeIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "weight", required = false) Double weight) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
 			Ingredient ingredient = ingredientRepository.findOneById(id);
@@ -111,7 +111,7 @@ public class IngredientController {
 	//API 1.0
 	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String createIngredient(@RequestParam("product_id") UUID productId, @RequestParam("weight") Integer weight, @RequestParam("meal_id") UUID mealId) {
+	public String createIngredient(@RequestParam("product_id") UUID productId, @RequestParam("weight") Double weight, @RequestParam("meal_id") UUID mealId) {
 		try {
 			Ingredient ingredient = new Ingredient(UUID.randomUUID(), productRepository.findOneById(productId), weight, mealRepository.findOneById(mealId));
 			ingredientRepository.save(ingredient);
@@ -132,7 +132,7 @@ public class IngredientController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String updateIngredient(@RequestParam("id") UUID id, @RequestParam(value = "product_id", required = false) UUID productId, @RequestParam(value = "weight", required = false) Integer weight, @RequestParam(value = "meal_id", required = false) UUID mealId) {
+	public String updateIngredient(@RequestParam("id") UUID id, @RequestParam(value = "product_id", required = false) UUID productId, @RequestParam(value = "weight", required = false) Double weight, @RequestParam(value = "meal_id", required = false) UUID mealId) {
 		try {
 			Ingredient ingredient = ingredientRepository.findOneById(id);
 			if (productId != null) ingredient.setProduct(productRepository.findOneById(productId));

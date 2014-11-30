@@ -22,7 +22,7 @@ public class Ingredient {
 	private Product product;
 
 	@Column
-	private Integer weight;
+	private Double weight;
 
 	@ManyToOne
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -31,7 +31,7 @@ public class Ingredient {
 	public Ingredient() {
 	}
 
-	public Ingredient(UUID id, Product product, Integer weight, Meal meal) {
+	public Ingredient(UUID id, Product product, Double weight, Meal meal) {
 		this.id = id;
 		this.product = product;
 		this.weight = weight;
@@ -54,11 +54,11 @@ public class Ingredient {
 		this.product = product;
 	}
 
-	public Integer getWeight() {
+	public Double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(Integer weight) {
+	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
 
