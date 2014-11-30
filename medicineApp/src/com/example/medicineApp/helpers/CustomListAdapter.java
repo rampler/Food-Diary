@@ -1,4 +1,4 @@
-package com.example.medicineApp;
+package com.example.medicineApp.helpers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.example.medicineApp.R;
+import com.example.medicineApp.objects.Product;
 
 import java.util.List;
 

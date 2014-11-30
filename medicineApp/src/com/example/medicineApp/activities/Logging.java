@@ -1,4 +1,4 @@
-package com.example.medicineApp;
+package com.example.medicineApp.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -14,6 +14,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.medicineApp.helpers.AppController;
+import com.example.medicineApp.helpers.DialogControl;
+import com.example.medicineApp.helpers.Globals;
+import com.example.medicineApp.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +32,6 @@ public class Logging extends Activity {
     private EditText userLogin;
     private EditText userPassword;
     private Globals g;
-    //http://foodiary.ddns.net:8080/user/getId?login=testowy
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class Logging extends Activity {
 
     private void makeLoginRequest() {
 
-        showpDialog();
+        DialogControl.showDialog(pDialog);
         String uri = String.format("http://foodiary.ddns.net:8080/user/getId?login=%1$s&password=%2$s", userLogin.getText(), userPassword.getText());
 
 
@@ -68,14 +71,14 @@ public class Logging extends Activity {
                     String id = response.getString("id");
                     g = Globals.getInstance();
                     g.setSessionId(id);
-                    hidepDialog();
+                    DialogControl.hideDialog(pDialog);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Logowanie nie powiodło się", Toast.LENGTH_SHORT).show();
-                    hidepDialog();
+                    DialogControl.hideDialog(pDialog);
                 }
             }
         }, new Response.ErrorListener() {
@@ -84,7 +87,7 @@ public class Logging extends Activity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(), "Logowanie nie powiodło się", Toast.LENGTH_SHORT).show();
-                hidepDialog();
+                DialogControl.hideDialog(pDialog);
             }
         });
 
@@ -92,15 +95,6 @@ public class Logging extends Activity {
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 
-    private void showpDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hidepDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
 
     public void ClearIdText(View view) {
         EditText userId = (EditText) findViewById(R.id.userIdEdit);
@@ -110,6 +104,11 @@ public class Logging extends Activity {
     public void ClearPasswordText(View view) {
         EditText password = (EditText) findViewById(R.id.passwordEdit);
         password.setText("");
+    }
+
+    public void Register(View view) {
+        Intent intent = new Intent(getApplicationContext(), Register.class);
+        startActivity(intent);
     }
 
 }

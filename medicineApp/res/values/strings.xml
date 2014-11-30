@@ -6,4 +6,11 @@
     <string name="loggingButton">Log In</string>
     <string name="loggingScreen">Logowanie</string>
     <string name="emptyString">""</string>
+    <string name="haveAnAccount">Don\'t have an account?</string>
+    <string name="registerNow">Register now!</string>
+    <string name="registerUsername">Username</string>
+    <string name="registerEmail">E-mail</string>
+    <string name="registerPassword">Password</string>
+    <string name="registerButton">Register</string>
+    <string name="createAccount">Create an account</string>
 </resources>

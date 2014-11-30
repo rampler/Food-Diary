@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:inputType="textPersonName" android:text="@string/registerUsername" android:ems="10"
+              android:id="@+id/registerUsername"
+              android:layout_marginTop="141dp" android:editable="true" android:onClick="ClearUsernameText"
+              android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/registerEmail" android:layout_below="@+id/registerUsername"
+            android:layout_centerHorizontal="true" android:text="@string/registerEmail"
+            android:onClick="ClearEmailText"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/registerPassword" android:layout_below="@+id/registerEmail"
+            android:layout_centerHorizontal="true" android:text="@string/registerPassword"
+            android:onClick="ClearRegisterPasswordText"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registerButton"
+            android:id="@+id/registerButton" android:layout_below="@+id/registerPassword"
+            android:layout_centerHorizontal="true"/>
+</RelativeLayout>

@@ -1,6 +1,11 @@
-package com.example.medicineApp;
+package com.example.medicineApp.activities;
 
 import android.widget.*;
+import com.example.medicineApp.helpers.AppController;
+import com.example.medicineApp.helpers.CustomListAdapter;
+import com.example.medicineApp.helpers.Globals;
+import com.example.medicineApp.R;
+import com.example.medicineApp.objects.Product;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

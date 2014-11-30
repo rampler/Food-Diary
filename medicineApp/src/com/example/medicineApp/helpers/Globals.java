@@ -1,4 +1,6 @@
-package com.example.medicineApp;
+package com.example.medicineApp.helpers;
+
+import com.example.medicineApp.objects.Product;
 
 import java.util.ArrayList;
 import java.util.List;

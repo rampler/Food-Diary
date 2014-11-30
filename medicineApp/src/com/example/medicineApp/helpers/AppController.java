@@ -1,4 +1,4 @@
-package com.example.medicineApp;
+package com.example.medicineApp.helpers;
 
 import android.app.Application;
 import android.text.TextUtils;

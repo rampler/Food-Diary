@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
+import com.example.medicineApp.helpers.Globals;
 
 import java.math.BigDecimal;
 
