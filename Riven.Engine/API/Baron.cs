@@ -27,11 +27,14 @@ namespace Riven.Engine.API {
         
         public Baron(Uri serverAddress, IDataProvider provider) {
             User = new Support.User(serverAddress, provider);
+            Profile = new Support.Profile(serverAddress, provider);
         }
 
         public Riven.Engine.API.Support.User User { get; private set; }
+        public Riven.Engine.API.Support.Profile Profile { get; private set; }
 
         private NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
     }
 }
 

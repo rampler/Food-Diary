@@ -24,10 +24,10 @@ namespace Riven.Engine.API {
     /// </summary>
     public interface IUserAPI {
 
-        Guid Create(string login, string password);
+        Guid Create(DB.Model.User user);
         Guid GetId(string login);
         IEnumerable<DB.Model.User> List();
-        bool Update(Guid id, string login, string password);
+        bool Update(Guid id, DB.Model.User user);
         bool Delete(Guid id);
 
     }

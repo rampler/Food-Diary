@@ -38,17 +38,19 @@ namespace Riven.Engine.API.Support {
         /// <summary>
         /// /user/create?login=abc&password=yyy
         /// </summary>
-        public Guid Create(string login, string password) {
-            var localization = new Uri(ServerAddress, "/user/create");
-            Logger.Info("Trying to create new user id from '{0}'", login, localization.ToString());
+        public Guid Create(DB.Model.User user) {
+            Logger.Info("Creating new user: {0}", user.ToString());
 
-            var response = Provider.Request(localization, "login", login, "password", password);
-            Logger.Info("Response: " + response);
+            var localization = new Uri(ServerAddress, "/user/create");
+            var response = Provider.Request(localization, 
+                "login", user.Login, "password", user.Password);
 
             if (response == string.Empty) {
-                Logger.Error("User could not be created!", login);
+                Logger.Error("User could not be created!");
                 return Guid.Empty;
             }
+
+            Logger.Debug("Server resonse: " + response);
 
             JObject obj = JObject.Parse(response);
             return Guid.Parse((string)obj["id"]);
@@ -58,16 +60,17 @@ namespace Riven.Engine.API.Support {
         /// /user/getId?login=abc
         /// </summary>
         public Guid GetId(string login) {
-            var localization = new Uri(ServerAddress, "/user/getId");
-            Logger.Info("Trying to get user id for '{0}' from '{1}'", login, localization.ToString());
+            Logger.Info("Getting id for user with login = {0}", login);
 
+            var localization = new Uri(ServerAddress, "/user/getId");
             var response = Provider.Request(localization, "login", login);
-            Logger.Info("Response: " + response);
 
             if (response == string.Empty) {
                 Logger.Warn("User '{0}' does not exists!", login);
                 return Guid.Empty;
             }
+
+            Logger.Debug("Server resonse: " + response);
 
             JObject obj = JObject.Parse(response);
             return Guid.Parse((string)obj["id"]);
@@ -77,18 +80,19 @@ namespace Riven.Engine.API.Support {
         /// /user/list
         /// </summary>
         public IEnumerable<DB.Model.User> List() {
-            var users = new LinkedList<DB.Model.User>();
-
-            var localization = new Uri(ServerAddress, "/user/list");
             Logger.Info("Trying to get all users from server");
 
+            var users = new LinkedList<DB.Model.User>();
+            var localization = new Uri(ServerAddress, "/user/list");
             var response = Provider.Request(localization);
-            Logger.Info("Response: " + response);
 
             if (response == string.Empty) {
-                Logger.Warn("There is no users on server!");
+                Logger.Warn("Nobody registered yet!");
                 return users;
             }
+            
+            Logger.Info("Server response: " + response);
+
             JArray obj = JArray.Parse(response);
 
             foreach (var child in obj.Children()) {
@@ -105,17 +109,19 @@ namespace Riven.Engine.API.Support {
         /// <summary>
         /// /user/update?id={guid}|&login=xxx|&password=yyy
         /// </summary>
-        public bool Update(Guid id, string login=null, string password=null) {
-            var localization = new Uri(ServerAddress, "/user/update");
-            Logger.Info("Trying to update user id = '{0}' using '{2}'", id, password, localization.ToString());
+        public bool Update(Guid id, DB.Model.User user) {
+            Logger.Info("Updating user: {0}", user.ToString());
 
-            var response = Provider.Request(localization, "id", id.ToString(), "login", login, "password", password);
-            Logger.Info("Response: " + response);
+            var localization = new Uri(ServerAddress, "/user/update");
+            var response = Provider.Request(localization, "id", id.ToString(), 
+                "login", user.Login, "password", user.Password);
 
             if (response == string.Empty) {
                 Logger.Warn("User '{0}' does not exists!", id);
                 return false;
             }
+
+            Logger.Info("Server response: " + response);
 
             JObject obj = JObject.Parse(response);
             return bool.Parse((string)obj["result"]);
@@ -125,20 +131,23 @@ namespace Riven.Engine.API.Support {
         /// /user/delete?id={guid}
         /// </summary>
         public bool Delete(Guid id) {
-            var localization = new Uri(ServerAddress, "/user/delete");
-            Logger.Info("Trying to delete user with id = '{0}' using '{1}'", id, localization.ToString());
+            Logger.Info("Deleting user with id: {0}", id.ToString());
 
+            var localization = new Uri(ServerAddress, "/user/delete");
             var response = Provider.Request(localization, "id", id.ToString());
-            Logger.Info("Response: " + response);
 
             if (response == string.Empty) {
                 Logger.Warn("User '{0}' does not exists!", id);
                 return false;
             }
 
+            Logger.Info("Server response: " + response);
+
             JObject obj = JObject.Parse(response);
             return bool.Parse((string)obj["result"]);
         }
+
+        
 
     }
 }

@@ -54,6 +54,7 @@
     <Compile Include="API\Interfaces\IMealAPI.cs" />
     <Compile Include="API\Interfaces\IProductAPI.cs" />
     <Compile Include="API\Interfaces\IProfileAPI.cs" />
+    <Compile Include="API\Support\Profile.cs" />
     <Compile Include="API\Support\User.cs" />
     <Compile Include="API\Interfaces\IUserAPI.cs" />
     <Compile Include="DB\Model\Ingredient.cs" />

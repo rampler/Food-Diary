@@ -31,6 +31,10 @@ namespace Riven.Engine.DB.Model {
         public double CaloriesCounter { get; set; }
         public User User { get; set; }
 
+        public override string ToString() {
+            return string.Format("[PROFILE: {0}; {1}]", FirstName, LastName);
+        }
+
     }
 
 }
