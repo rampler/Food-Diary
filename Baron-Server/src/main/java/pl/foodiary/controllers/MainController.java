@@ -20,6 +20,7 @@ public class MainController {
 	@RequestMapping("/")
 	@ResponseBody
 	String home() {
+		String version = "0.8.2";
 		return "<style type=\"text/css\">\n" +
 				"table, td\n" +
 				"{\n" +
@@ -44,7 +45,7 @@ public class MainController {
 				"</style>" +
 				"<h1>Welcome on Food Diary Server - Baron!</h1>" +
 				"<h2>LET'S THE DEATH MARCH BEGIN!</h2>" +
-				(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())) + "<br />Version: 0.8.0" +
+				(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())) + "<br />Version: "+version+
 				Application.mainAPI;
 	}
 

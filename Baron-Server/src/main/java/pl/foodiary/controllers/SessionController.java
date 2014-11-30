@@ -47,4 +47,24 @@ public class SessionController {
 		}
 	}
 
+	@RequestMapping(value = "/register",method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public String register(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("mail_address") String email) {
+		try {
+			User user = new User(UUID.randomUUID(), login.toLowerCase(), password, email);
+			userRepository.save(user);
+			return "{\"id\":\"" + user.getId() + "\"}";
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@ResponseBody
+	public void logout(@RequestParam("session_id") UUID sessionId) {
+		sessionRepository.delete(sessionRepository.findOneById(sessionId));
+	}
+
 }
