@@ -1,13 +1,11 @@
 package pl.foodiary.domain;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.UUID;
 
 /**
@@ -71,4 +69,10 @@ public class Ingredient {
 	public void setMeal(Meal meal) {
 		this.meal = meal;
 	}
+
+	@JsonProperty("meal")
+	public UUID getMealId() { return meal.getId(); }
+
+	@JsonProperty("product")
+	public UUID getProductId() { return product.getId(); }
 }
