@@ -1,5 +1,6 @@
 package pl.foodiary.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Created by Mateusz on 2014-11-30.
  */
 @Entity
-@Table(name = "profile")
+@Table(name = "profile", uniqueConstraints = @UniqueConstraint(columnNames = "user_id"))
 public class Profile {
 	@Id
 	@Type(type = "pg-uuid")
@@ -100,5 +101,10 @@ public class Profile {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@JsonProperty("user")
+	public UUID getUserId() {
+		return user.getId();
 	}
 }
