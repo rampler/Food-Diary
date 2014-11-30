@@ -74,9 +74,8 @@ public class Logging extends Activity {
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(),
-                            "Error: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Logowanie nie powiodło się", Toast.LENGTH_SHORT).show();
+                    hidepDialog();
                 }
             }
         }, new Response.ErrorListener() {
@@ -84,11 +83,8 @@ public class Logging extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
-                hidepDialog();
                 Toast.makeText(getApplicationContext(), "Logowanie nie powiodło się", Toast.LENGTH_SHORT).show();
-
+                hidepDialog();
             }
         });
 
