@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.foodiary.domain.User;
 import pl.foodiary.repositories.UserRepository;
+import pl.foodiary.services.SessionService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 /**
@@ -21,6 +23,18 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private SessionService sessionService;
+
+	//API 2.0
+	@RequestMapping(value = "/deleteAccount", method = RequestMethod.GET)
+	@ResponseBody
+	public void deleteAccount(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
+		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+		userRepository.delete(user);
+	}
+
+	//API 1.0
 	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public String addUser(@RequestParam("login") String login, @RequestParam("password") String password) {

@@ -49,7 +49,7 @@ public class SessionController {
 
 	@RequestMapping(value = "/register",method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String register(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("mail_address") String email) {
+	public String register(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("mailAddress") String email) {
 		try {
 			User user = new User(UUID.randomUUID(), login.toLowerCase(), password, email);
 			userRepository.save(user);
@@ -63,7 +63,7 @@ public class SessionController {
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	@ResponseBody
-	public void logout(@RequestParam("session_id") UUID sessionId) {
+	public void logout(@RequestParam("sessionId") UUID sessionId) {
 		sessionRepository.delete(sessionRepository.findOneById(sessionId));
 	}
 
