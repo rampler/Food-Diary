@@ -27,7 +27,7 @@ public class SessionController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@RequestMapping(value = "/login",method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public String login(HttpServletRequest request, @RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
@@ -37,17 +37,16 @@ public class SessionController {
 				sessionRepository.save(session);
 				return "{\"id\":\"" + session.getId() + "\"}";
 			}
-			else {
-				throw new NotAuthorizedException(login);
-			}
+			else throw new NotAuthorizedException(login);
 		}
+		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new NotAuthorizedException(login);
+			return null;
 		}
 	}
 
-	@RequestMapping(value = "/register",method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/register", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public String register(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("mailAddress") String email) {
 		try {

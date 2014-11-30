@@ -18,7 +18,7 @@ import java.util.Scanner;
 @EnableAutoConfiguration
 public class Application {
 
-	public static String mainAPI = "";
+	public static String mainAPI  = "";
 	public static String mainAPI2 = "";
 
 	public static void main(String[] args) throws Exception {

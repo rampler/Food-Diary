@@ -27,7 +27,7 @@ public class UserController {
 	private SessionService sessionService;
 
 	//API 2.0
-	@RequestMapping(value = "/deleteAccount", method = RequestMethod.GET)
+	@RequestMapping(value = "/erase", method = RequestMethod.GET)
 	@ResponseBody
 	public void deleteAccount(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());

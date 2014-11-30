@@ -25,14 +25,15 @@ public class SessionService {
 
 	/**
 	 * Method checks is session is still active.
+	 *
 	 * @param sessionId - Session ID
 	 * @param ipAddress - Ip Address
 	 * @return User / Code 403
 	 */
 	public User checkSession(UUID sessionId, String ipAddress) {
 		try {
-		 	Session session = sessionRepository.findOneById(sessionId);
-			if((session.getLastActivityDate().getTime()-System.currentTimeMillis())/(1000*60) < 30 && session.getIpAddress().equals(ipAddress)) {
+			Session session = sessionRepository.findOneById(sessionId);
+			if ((session.getLastActivityDate().getTime() - System.currentTimeMillis()) / (1000 * 60) < 30 && session.getIpAddress().equals(ipAddress)) {
 				session.setLastActivityDate(new Date());
 				sessionRepository.save(session);
 				return session.getUser();
@@ -42,7 +43,7 @@ public class SessionService {
 				throw new NotAuthorizedException();
 			}
 		}
-		catch(Exception e) {
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 			throw new NotAuthorizedException();
 		}

@@ -1,12 +1,11 @@
 package pl.foodiary.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 import java.util.UUID;
 
