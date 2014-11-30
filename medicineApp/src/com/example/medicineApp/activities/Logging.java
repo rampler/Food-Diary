@@ -58,7 +58,7 @@ public class Logging extends Activity {
     private void makeLoginRequest() {
 
         DialogControl.showDialog(pDialog);
-        String uri = String.format("http://foodiary.ddns.net:8080/user/getId?login=%1$s&password=%2$s", userLogin.getText(), userPassword.getText());
+        String uri = String.format("http://foodiary.ddns.net:8080/login?login=%1$s&password=%2$s", userLogin.getText(), userPassword.getText());
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
@@ -72,12 +72,13 @@ public class Logging extends Activity {
                     g = Globals.getInstance();
                     g.setSessionId(id);
                     DialogControl.hideDialog(pDialog);
+                    Toast.makeText(getApplicationContext(), "User logged in", Toast.LENGTH_SHORT);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Logowanie nie powiodło się", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error while logging in", Toast.LENGTH_SHORT).show();
                     DialogControl.hideDialog(pDialog);
                 }
             }
@@ -86,7 +87,7 @@ public class Logging extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "Logowanie nie powiodło się", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error while logging in", Toast.LENGTH_SHORT).show();
                 DialogControl.hideDialog(pDialog);
             }
         });

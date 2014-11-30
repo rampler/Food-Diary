@@ -64,13 +64,13 @@ public class Register extends Activity {
                 try {
                     String id = response.getString("id");
                     DialogControl.hideDialog(pDialog);
-                    Toast.makeText(getApplicationContext(), "Zarejestrowano użytkownika", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "User registered", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), Logging.class);
                     startActivity(intent);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Rejestracja nie powioodła się", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error while registering a user", Toast.LENGTH_SHORT).show();
                     DialogControl.hideDialog(pDialog);
                 }
             }
@@ -79,7 +79,7 @@ public class Register extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "Rejestracja nie powiodła się", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error while registering a user", Toast.LENGTH_SHORT).show();
                 DialogControl.hideDialog(pDialog);
             }
         });
