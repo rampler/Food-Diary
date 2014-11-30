@@ -24,7 +24,7 @@ public class Application {
 		//TODO to erase in final version
 		File mainScreen = new File("mainScreen.baronapi");
 		Scanner in = new Scanner(mainScreen);
-		while(in.hasNext()) {
+		while (in.hasNext()) {
 			mainAPI += in.nextLine();
 		}
 		in.close();

@@ -25,7 +25,7 @@ public class UserController {
 	@ResponseBody
 	public String addUser(@RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
-			User user = new User(UUID.randomUUID(), login, password);
+			User user = new User(UUID.randomUUID(), login.toLowerCase(), password);
 			userRepository.save(user);
 			return "{\"id\":\"" + user.getId() + "\"}";
 		}
@@ -38,7 +38,7 @@ public class UserController {
 	@RequestMapping(value = "/getId", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public String getUserId(@RequestParam("login") String login) {
-		return (userRepository.findOneByLogin(login) != null) ? "{\"id\":\"" + userRepository.findOneByLogin(login).getId() + "\"}" : null;
+		return (userRepository.findOneByLogin(login.toLowerCase()) != null) ? "{\"id\":\"" + userRepository.findOneByLogin(login.toLowerCase()).getId() + "\"}" : null;
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -52,7 +52,7 @@ public class UserController {
 	public String upadateUser(@RequestParam(value = "id", required = true) UUID id, @RequestParam(value = "login", required = false) String login, @RequestParam(value = "password", required = false) String password) {
 		try {
 			User user = userRepository.findOneById(id);
-			if (login != null) user.setLogin(login);
+			if (login != null) user.setLogin(login.toLowerCase());
 			if (password != null) user.setPassword(password);
 			userRepository.save(user);
 			return "{\"result\":true}";
