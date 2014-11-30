@@ -37,7 +37,7 @@ public class MealController {
 	//API 2.0
 	@RequestMapping(value = "/getList", method = RequestMethod.GET)
 	@ResponseBody
-	public Iterable<Meal> getListOfUserMeals(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDate",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+	public Iterable<Meal> getListOfUserMeals(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDay",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
 		if(date == null)
 			return mealRepository.findByUser(user);
@@ -47,7 +47,7 @@ public class MealController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String addMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("name") String name, @RequestParam("consumptionDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+	public String addMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("name") String name, @RequestParam("consumptionDay") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
 			Meal meal = new Meal(UUID.randomUUID(), name, date, user);
@@ -63,7 +63,7 @@ public class MealController {
 
 	@RequestMapping(value = "/change", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String changeMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "consumptionDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+	public String changeMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
 			Meal meal = mealRepository.findOneById(id);
