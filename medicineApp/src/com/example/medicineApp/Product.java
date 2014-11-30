@@ -8,7 +8,7 @@ public class Product {
     private String id;
     private String name;
     private String calories;
-    private String carbon;
+    private String carbs;
     private String protein;
     private String fat;
     private String type;
@@ -17,7 +17,7 @@ public class Product {
         this.id = id;
         this.name = name;
         this.calories = calories;
-        this.carbon = carbon;
+        this.carbs = carbon;
         this.protein = protein;
         this.fat = fat;
         this.type = category;
@@ -43,7 +43,7 @@ public class Product {
     }
 
     public String getCarbon() {
-        return carbon;
+        return carbs;
     }
 
     public String getProtein() {

@@ -6,29 +6,15 @@
     <uses-sdk android:minSdkVersion="15"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.Holo.Light" android:name="com.example.medicineApp.AppController">
-        <activity android:name="MainActivity"
+        <activity android:name="com.example.medicineApp.MainActivity"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".Logging"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-                android:name="com.example.medicineApp.DisplayMessageActivity"
-                android:label="@string/title_activity_display_message"
-                android:parentActivityName="com.example.medicineApp.MyActivity" >
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.example.medicineApp.MyActivity" />
-        </activity>
-        <activity
-                android:name="com.example.medicineApp.AddNewMedicineActivity"
-                android:label="@string/title_activity_display_message"
-                android:parentActivityName="com.example.medicineApp.MyActivity" >
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.example.medicineApp.MyActivity" />
-        </activity>
-
     </application>
 </manifest>

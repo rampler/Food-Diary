@@ -1,22 +1,12 @@
 package com.example.medicineApp;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.io.*;
-import java.math.BigDecimal;
-import java.util.*;
 
 public class MyActivity extends Activity {
 

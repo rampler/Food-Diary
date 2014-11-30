@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/userIdEdit"
+            android:ems="10"
+            android:id="@+id/userIdEdit" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+            android:layout_marginTop="148dp" android:editable="true" android:onClick="ClearIdText"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordEdit" android:layout_below="@+id/userIdEdit" android:layout_centerHorizontal="true"
+            android:text="@string/passwordEdit" android:onClick="ClearPasswordText"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loggingButton"
+            android:id="@+id/loggingButton" android:layout_below="@+id/passwordEdit" android:layout_centerHorizontal="true"/>
+</RelativeLayout>
