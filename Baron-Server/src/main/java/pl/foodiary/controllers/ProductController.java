@@ -22,10 +22,12 @@ public class ProductController {
 	@Autowired
 	private ProductRepository productRepository;
 
+	//API 1.0 and 2.0
 	@RequestMapping("/list")
 	@ResponseBody
-	public Iterable<Product> listAllProducts() {
-		return productRepository.findAll();
+	public Iterable<Product> listAllProducts(@RequestParam(value = "category", required = false) String category) {
+		if (category != null) return productRepository.findByCategory(ProductCategory.valueOf(category));
+		else return productRepository.findAll();
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")

@@ -3,6 +3,7 @@ package pl.foodiary.repositories;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import pl.foodiary.domain.Ingredient;
+import pl.foodiary.domain.Meal;
 
 import java.util.UUID;
 
@@ -12,4 +13,5 @@ import java.util.UUID;
 @Repository
 public interface IngredientRepository extends PagingAndSortingRepository<Ingredient, Long> {
 	Ingredient findOneById(UUID id);
+	Iterable<Ingredient> findByMeal(Meal meal);
 }

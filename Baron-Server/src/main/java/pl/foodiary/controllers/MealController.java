@@ -37,12 +37,10 @@ public class MealController {
 	//API 2.0
 	@RequestMapping(value = "/getList", method = RequestMethod.GET)
 	@ResponseBody
-	public Iterable<Meal> getListOfUserMeals(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDay",required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+	public Iterable<Meal> getListOfUserMeals(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
-		if(date == null)
-			return mealRepository.findByUser(user);
-		else
-			return mealRepository.findByUserAndConsumptionDay(user, date);
+		if (date == null) return mealRepository.findByUser(user);
+		else return mealRepository.findByUserAndConsumptionDay(user, date);
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET, produces = "application/json")
