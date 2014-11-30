@@ -16,7 +16,7 @@ public class Product {
 	@Type(type = "pg-uuid")
 	private UUID id;
 
-	@Column(length = 255)
+	@Column(length = 255, unique = true)
 	private String name;
 
 	@Column
