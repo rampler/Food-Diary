@@ -25,7 +25,7 @@ public class UserController {
 	@ResponseBody
 	public String addUser(@RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
-			User user = new User(UUID.randomUUID(), login.toLowerCase(), password);
+			User user = new User(UUID.randomUUID(), login.toLowerCase(), password, "");
 			userRepository.save(user);
 			return "{\"id\":\"" + user.getId() + "\"}";
 		}

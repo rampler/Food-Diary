@@ -30,7 +30,7 @@ public class ProductController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String createProduct(@RequestParam("name") String name, @RequestParam("calories") Integer calories, @RequestParam("fat") Integer fat, @RequestParam("carbon") Integer carbon, @RequestParam("protein") Integer protein, @RequestParam("category") String category) {
+	public String createProduct(@RequestParam("name") String name, @RequestParam("calories") Double calories, @RequestParam("fat") Double fat, @RequestParam("carbon") Double carbon, @RequestParam("protein") Double protein, @RequestParam("category") String category) {
 		Product product = new Product(UUID.randomUUID(), name, calories, carbon, protein, fat, ProductCategory.valueOf(category));
 		productRepository.save(product);
 		return "{\"id\":\"" + product.getId() + "\"}";
@@ -44,12 +44,12 @@ public class ProductController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String updateProduct(@RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "calories", required = false) Integer calories, @RequestParam(value = "fat", required = false) Integer fat, @RequestParam(value = "carbon", required = false) Integer carbon, @RequestParam(value = "protein", required = false) Integer protein, @RequestParam(value = "category", required = false) String category) {
+	public String updateProduct(@RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "calories", required = false) Double calories, @RequestParam(value = "fat", required = false) Double fat, @RequestParam(value = "carbs", required = false) Double carbs, @RequestParam(value = "protein", required = false) Double protein, @RequestParam(value = "category", required = false) String category) {
 		try {
 			Product product = productRepository.findOneById(id);
 			if (calories != null) product.setCalories(calories);
 			if (name != null) product.setName(name);
-			if (carbon != null) product.setCarbon(carbon);
+			if (carbs != null) product.setCarbs(carbs);
 			if (protein != null) product.setProtein(fat);
 			if (fat != null) product.setFat(fat);
 			if (category != null) product.setCategory(ProductCategory.valueOf(category));
