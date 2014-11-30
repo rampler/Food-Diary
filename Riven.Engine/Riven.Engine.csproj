@@ -53,6 +53,7 @@
     <Compile Include="API\Interfaces\IMealAPI.cs" />
     <Compile Include="API\Interfaces\IProductAPI.cs" />
     <Compile Include="API\Interfaces\IProfileAPI.cs" />
+    <Compile Include="API\Support\Meal.cs" />
     <Compile Include="API\Support\Product.cs" />
     <Compile Include="API\Support\Profile.cs" />
     <Compile Include="API\Support\User.cs" />
