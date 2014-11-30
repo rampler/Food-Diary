@@ -1,8 +1,13 @@
 package pl.foodiary.domain;
 
-import org.hibernate.annotations.Type;
+import org.hibernate.SessionFactory;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.UUID;
 
 /**
@@ -15,13 +20,14 @@ public class Ingredient {
 	@Type(type = "pg-uuid")
 	private UUID id;
 
-	@OneToOne
+	@ManyToOne
 	private Product product;
 
 	@Column
 	private Integer weight;
 
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Meal meal;
 
 	public Ingredient() {

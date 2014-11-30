@@ -1,9 +1,12 @@
 package pl.foodiary.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.UUID;
 
 /**
@@ -32,6 +35,7 @@ public class Profile {
 	private Integer age;
 
 	@OneToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 
 	public Profile() {
