@@ -10,6 +10,7 @@ import pl.foodiary.repositories.MealRepository;
 import pl.foodiary.repositories.ProductRepository;
 import pl.foodiary.repositories.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.UUID;
 
@@ -56,5 +57,11 @@ public class TestController {
 		ingredientRepository.save(meal);
 
 		return meal;
+	}
+
+	@RequestMapping("/ip")
+	@ResponseBody
+	public String getIp(HttpServletRequest request) {
+		return request.getRemoteAddr();
 	}
 }

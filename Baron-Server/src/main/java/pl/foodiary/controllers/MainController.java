@@ -22,7 +22,7 @@ public class MainController {
 	String home() {
 		return "<h1>Welcome on Food Diary Server - Baron!</h1>" +
 				"<h2>LET'S THE DEATH MARCH BEGIN!</h2>" +
-				(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())) + "<br />Version: 0.7.2" +
+				(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())) + "<br />Version: 0.8.0" +
 				Application.mainAPI;
 	}
 
