@@ -52,11 +52,11 @@ public class SessionController {
 		try {
 			User user = new User(UUID.randomUUID(), login.toLowerCase(), password, email);
 			userRepository.save(user);
-			return "{\"id\":\"" + user.getId() + "\"}";
+			return "{\"result\":true}";
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return "{\"result\":false}";
 		}
 	}
 
