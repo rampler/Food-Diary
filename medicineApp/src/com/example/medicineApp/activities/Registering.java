@@ -23,9 +23,9 @@ import org.json.JSONObject;
 /**
  * Created by Sabina on 2014-11-30.
  */
-public class Register extends Activity {
+public class Registering extends Activity {
 
-    private static String TAG = MainActivity.class.getSimpleName();
+    private static String TAG = Registering.class.getSimpleName();
     private Button registerButton;
     private EditText username;
     private EditText mail;
@@ -53,7 +53,7 @@ public class Register extends Activity {
 
     private void RegisterNewUser() {
         DialogControl.showDialog(pDialog);
-        String uri = String.format("http://foodiary.ddns.net:8080/register?login=%1$s&password=%2$s&mail_address=%3$s", username.getText(), password.getText(), mail.getText());
+        String uri = String.format("http://foodiary.ddns.net:8080/register?login=%1$s&password=%2$s&mailAddress=%3$s", username.getText(), password.getText(), mail.getText());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 uri, null, new Response.Listener<JSONObject>() {
@@ -62,16 +62,15 @@ public class Register extends Activity {
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
                 try {
-                    String id = response.getString("id");
-                    DialogControl.hideDialog(pDialog);
-                    Toast.makeText(getApplicationContext(), "User registered", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), Logging.class);
-                    startActivity(intent);
-                    finish();
+                    String result = response.getString("result");
+                    if (result.equals("true")) {
+                        HandleUserRegisteringSuccess();
+                    } else {
+                        HandleUserRegisteringError();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error while registering a user", Toast.LENGTH_SHORT).show();
-                    DialogControl.hideDialog(pDialog);
+                    HandleUserRegisteringError();
                 }
             }
         }, new Response.ErrorListener() {
@@ -79,8 +78,7 @@ public class Register extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "Error while registering a user", Toast.LENGTH_SHORT).show();
-                DialogControl.hideDialog(pDialog);
+                HandleUserRegisteringError();
             }
         });
 
@@ -110,7 +108,18 @@ public class Register extends Activity {
         password = (EditText) findViewById(R.id.registerPassword);
     }
 
+    private void HandleUserRegisteringError() {
+        Toast.makeText(getApplicationContext(), "Error while registering a user", Toast.LENGTH_SHORT).show();
+        DialogControl.hideDialog(pDialog);
+    }
 
+    private void HandleUserRegisteringSuccess() {
+        DialogControl.hideDialog(pDialog);
+        Toast.makeText(getApplicationContext(), "User registered", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), Logging.class);
+        startActivity(intent);
+        finish();
+    }
 
 }
 

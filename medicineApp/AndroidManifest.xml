@@ -6,12 +6,16 @@
     <uses-sdk android:minSdkVersion="15"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.Holo.Light" android:name=".helpers.AppController">
-        <activity android:name=".activities.MainActivity"
+        <activity android:name=".activities.UserProfile"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name=".activities.Register"
+        <activity android:name=".activities.Registering"
                   android:label="@string/createAccount"
                   android:parentActivityName=".activities.Logging">
+        </activity>
+        <activity android:name=".activities.CreatingUserProfile"
+                  android:label="New Profile"
+                  android:parentActivityName=".activities.UserProfile">
         </activity>
         <activity android:name=".activities.Logging"
                   android:label="@string/app_name">

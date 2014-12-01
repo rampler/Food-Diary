@@ -26,7 +26,7 @@ import org.json.JSONObject;
  */
 public class Logging extends Activity {
 
-    private static String TAG = MainActivity.class.getSimpleName();
+    private static String TAG = UserProfile.class.getSimpleName();
     private Button logIn;
     private ProgressDialog pDialog;
     private EditText userLogin;
@@ -71,15 +71,10 @@ public class Logging extends Activity {
                     String id = response.getString("id");
                     g = Globals.getInstance();
                     g.setSessionId(id);
-                    DialogControl.hideDialog(pDialog);
-                    Toast.makeText(getApplicationContext(), "User logged in", Toast.LENGTH_SHORT);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    HandleUserLoggingSuccess();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error while logging in", Toast.LENGTH_SHORT).show();
-                    DialogControl.hideDialog(pDialog);
+                    HandleUserLoggingError();
                 }
             }
         }, new Response.ErrorListener() {
@@ -87,8 +82,7 @@ public class Logging extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "Error while logging in", Toast.LENGTH_SHORT).show();
-                DialogControl.hideDialog(pDialog);
+                HandleUserLoggingError();
             }
         });
 
@@ -108,8 +102,20 @@ public class Logging extends Activity {
     }
 
     public void Register(View view) {
-        Intent intent = new Intent(getApplicationContext(), Register.class);
+        Intent intent = new Intent(getApplicationContext(), Registering.class);
         startActivity(intent);
     }
 
+    private void HandleUserLoggingSuccess() {
+        DialogControl.hideDialog(pDialog);
+        Toast.makeText(getApplicationContext(), "User logged in", Toast.LENGTH_SHORT);
+        Intent intent = new Intent(getApplicationContext(), UserProfile.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void HandleUserLoggingError() {
+        Toast.makeText(getApplicationContext(), "Error while logging in", Toast.LENGTH_SHORT).show();
+        DialogControl.hideDialog(pDialog);
+    }
 }

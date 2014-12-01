@@ -13,4 +13,10 @@
     <string name="registerPassword">Password</string>
     <string name="registerButton">Register</string>
     <string name="createAccount">Create an account</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_surname">Last name</string>
+    <string name="profile_weight">Weight</string>
+    <string name="profile_calories">Calories-a-day</string>
+    <string name="profile_age">Age</string>
+    <string name="create">Create</string>
 </resources>
