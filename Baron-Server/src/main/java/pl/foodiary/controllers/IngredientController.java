@@ -38,7 +38,7 @@ public class IngredientController {
 	private SessionService sessionService;
 
 	//API 2.0
-	@RequestMapping(value = "/add", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String addIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("productId") UUID productId, @RequestParam("weight") Double weight, @RequestParam("mealId") UUID mealId) {
 		try {
@@ -59,7 +59,7 @@ public class IngredientController {
 		}
 	}
 
-	@RequestMapping(value = "/change", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/change", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String changeIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "weight", required = false) Double weight) {
 		try {
@@ -79,7 +79,7 @@ public class IngredientController {
 		}
 	}
 
-	@RequestMapping(value = "/erase", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/erase", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String eraseIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id) {
 		try {
@@ -99,7 +99,7 @@ public class IngredientController {
 		}
 	}
 
-	@RequestMapping(value = "/getList", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/getList", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public Iterable<Ingredient> getListOfIngredients(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("mealId") UUID mealId) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());

@@ -33,13 +33,13 @@ public class ProfileController {
 
 	//API 2.0
 
-	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/get", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public Profile getProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		return profileRepository.findOneByUser(sessionService.checkSession(sessionId, request.getRemoteAddr()));
 	}
 
-	@RequestMapping(value = "/new", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String newProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("weight") Double weight, @RequestParam("caloriesCounter") Double caloriesCounter, @RequestParam("age") Integer age) {
 		try {
@@ -55,7 +55,7 @@ public class ProfileController {
 		}
 	}
 
-	@RequestMapping(value = "/change", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/change", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String changeProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "firstName", required = false) String firstName, @RequestParam(value = "lastName", required = false) String lastName, @RequestParam(value = "weight", required = false) Double weight, @RequestParam(value = "caloriesCounter", required = false) Double caloriesCounter, @RequestParam(value = "age", required = false) Integer age) {
 		try {

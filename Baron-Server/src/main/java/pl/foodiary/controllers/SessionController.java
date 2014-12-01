@@ -27,7 +27,7 @@ public class SessionController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String login(HttpServletRequest request, @RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
@@ -46,7 +46,7 @@ public class SessionController {
 		}
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String register(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("mailAddress") String email) {
 		try {
@@ -60,7 +60,7 @@ public class SessionController {
 		}
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public void logout(@RequestParam("sessionId") UUID sessionId) {
 		sessionRepository.delete(sessionRepository.findOneById(sessionId));

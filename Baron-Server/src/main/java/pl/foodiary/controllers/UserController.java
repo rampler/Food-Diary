@@ -33,14 +33,14 @@ public class UserController {
 	private SessionService sessionService;
 
 	//API 2.0
-	@RequestMapping(value = "/erase", method = RequestMethod.GET)
+	@RequestMapping(value = "/erase", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public void deleteAccount(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
 		userRepository.delete(user);
 	}
 
-	@RequestMapping(value = "/hasProfile", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/hasProfile", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String hasProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		try {
@@ -99,7 +99,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String deleteUser(@RequestParam("id") UUID id) {
 		try {

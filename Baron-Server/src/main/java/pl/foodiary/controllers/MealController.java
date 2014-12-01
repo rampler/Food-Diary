@@ -35,7 +35,7 @@ public class MealController {
 	private SessionService sessionService;
 
 	//API 2.0
-	@RequestMapping(value = "/getList", method = RequestMethod.GET)
+	@RequestMapping(value = "/getList", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public Iterable<Meal> getListOfUserMeals(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
@@ -43,7 +43,7 @@ public class MealController {
 		else return mealRepository.findByUserAndConsumptionDay(user, date);
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String addMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("name") String name, @RequestParam("consumptionDay") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		try {
@@ -59,7 +59,7 @@ public class MealController {
 		}
 	}
 
-	@RequestMapping(value = "/change", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/change", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String changeMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		try {
@@ -81,7 +81,7 @@ public class MealController {
 		}
 	}
 
-	@RequestMapping(value = "/erase", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/erase", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
 	@ResponseBody
 	public String eraseMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id) {
 		try {
