@@ -32,7 +32,7 @@ public class SessionService {
 	 */
 	public User checkSession(UUID sessionId, String ipAddress) {
 		try {
-			Session session = sessionRepository.findOneById(sessionId);
+			Session session = sessionRepository.findOne(sessionId);
 			if ((session.getLastActivityDate().getTime() - System.currentTimeMillis()) / (1000 * 60) < 30 && session.getIpAddress().equals(ipAddress)) {
 				session.setLastActivityDate(new Date());
 				sessionRepository.save(session);

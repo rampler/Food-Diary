@@ -11,7 +11,6 @@ import java.util.UUID;
  * Created by Mateusz on 2014-11-27.
  */
 @Repository
-public interface IngredientRepository extends PagingAndSortingRepository<Ingredient, Long> {
-	Ingredient findOneById(UUID id);
+public interface IngredientRepository extends PagingAndSortingRepository<Ingredient, UUID> {
 	Iterable<Ingredient> findByMeal(Meal meal);
 }

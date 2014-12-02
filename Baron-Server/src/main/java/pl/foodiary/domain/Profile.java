@@ -14,7 +14,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "profile", uniqueConstraints = @UniqueConstraint(columnNames = "user_id"))
-@JsonIgnoreProperties({ "user" })
+@JsonIgnoreProperties({"user"})
 public class Profile {
 	@Id
 	@Type(type = "pg-uuid")

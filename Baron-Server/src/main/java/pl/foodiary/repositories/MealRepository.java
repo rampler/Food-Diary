@@ -12,8 +12,7 @@ import java.util.UUID;
  * Created by Mateusz on 2014-11-27.
  */
 @Repository
-public interface MealRepository extends PagingAndSortingRepository<Meal, Long> {
+public interface MealRepository extends PagingAndSortingRepository<Meal, UUID> {
 	Iterable<Meal> findByUser(User user);
-	Meal findOneById(UUID id);
 	Iterable<Meal> findByUserAndConsumptionDay(User user, Date consumptionDay);
 }

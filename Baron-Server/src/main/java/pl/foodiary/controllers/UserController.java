@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.foodiary.domain.Profile;
 import pl.foodiary.domain.User;
 import pl.foodiary.exceptions.NotAuthorizedException;
 import pl.foodiary.repositories.ProfileRepository;
@@ -33,14 +32,14 @@ public class UserController {
 	private SessionService sessionService;
 
 	//API 2.0
-	@RequestMapping(value = "/erase", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/erase", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public void deleteAccount(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
 		userRepository.delete(user);
 	}
 
-	@RequestMapping(value = "/hasProfile", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/hasProfile", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String hasProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		try {
@@ -49,7 +48,7 @@ public class UserController {
 			if (count == 1) return "{\"result\":true}";
 			else return "{\"result\":false}";
 		}
-		catch (NotAuthorizedException ex){ throw ex; }
+		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 			return "{\"result\":false}";
@@ -87,7 +86,7 @@ public class UserController {
 	@ResponseBody
 	public String upadateUser(@RequestParam(value = "id", required = true) UUID id, @RequestParam(value = "login", required = false) String login, @RequestParam(value = "password", required = false) String password) {
 		try {
-			User user = userRepository.findOneById(id);
+			User user = userRepository.findOne(id);
 			if (login != null) user.setLogin(login.toLowerCase());
 			if (password != null) user.setPassword(password);
 			userRepository.save(user);
@@ -99,11 +98,11 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/delete", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String deleteUser(@RequestParam("id") UUID id) {
 		try {
-			userRepository.delete(userRepository.findOneById(id));
+			userRepository.delete(userRepository.findOne(id));
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {

@@ -35,7 +35,7 @@ public class MealController {
 	private SessionService sessionService;
 
 	//API 2.0
-	@RequestMapping(value = "/getList", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/getList", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Iterable<Meal> getListOfUserMeals(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
@@ -43,7 +43,7 @@ public class MealController {
 		else return mealRepository.findByUserAndConsumptionDay(user, date);
 	}
 
-	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String addMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("name") String name, @RequestParam("consumptionDay") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		try {
@@ -59,12 +59,12 @@ public class MealController {
 		}
 	}
 
-	@RequestMapping(value = "/change", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/change", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String changeMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
-			Meal meal = mealRepository.findOneById(id);
+			Meal meal = mealRepository.findOne(id);
 
 			if (user.getId().equals(meal.getUserId())) {
 				if (name != null) meal.setName(name);
@@ -81,12 +81,12 @@ public class MealController {
 		}
 	}
 
-	@RequestMapping(value = "/erase", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/erase", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String eraseMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
-			Meal meal = mealRepository.findOneById(id);
+			Meal meal = mealRepository.findOne(id);
 
 			if (user.getId().equals(meal.getUserId())) {
 				mealRepository.delete(meal);
@@ -105,7 +105,7 @@ public class MealController {
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	@ResponseBody
 	public Iterable<Meal> getUsersMeals(@RequestParam("userId") UUID userId) {
-		User user = userRepository.findOneById(userId);
+		User user = userRepository.findOne(userId);
 		return mealRepository.findByUser(user);
 	}
 
@@ -119,7 +119,7 @@ public class MealController {
 	@ResponseBody
 	public String createMeal(@RequestParam("name") String name, @RequestParam("consumption_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @RequestParam("user_id") UUID userId) {
 		try {
-			Meal meal = new Meal(UUID.randomUUID(), name, date, userRepository.findOneById(userId));
+			Meal meal = new Meal(UUID.randomUUID(), name, date, userRepository.findOne(userId));
 			mealRepository.save(meal);
 			return "{\"id\":\"" + meal.getId() + "\"}";
 		}
@@ -133,10 +133,10 @@ public class MealController {
 	@ResponseBody
 	public String updateMeal(@RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "consumption_date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @RequestParam(value = "user_id", required = false) UUID userId) {
 		try {
-			Meal meal = mealRepository.findOneById(id);
+			Meal meal = mealRepository.findOne(id);
 			if (name != null) meal.setName(name);
 			if (date != null) meal.setConsumptionDay(date);
-			if (userId != null) meal.setUser(userRepository.findOneById(userId));
+			if (userId != null) meal.setUser(userRepository.findOne(userId));
 			mealRepository.save(meal);
 			return "{\"result\":true}";
 		}
@@ -150,7 +150,7 @@ public class MealController {
 	@ResponseBody
 	public String deleteMeal(@RequestParam("id") UUID id) {
 		try {
-			mealRepository.delete(mealRepository.findOneById(id));
+			mealRepository.delete(mealRepository.findOne(id));
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {

@@ -38,15 +38,15 @@ public class IngredientController {
 	private SessionService sessionService;
 
 	//API 2.0
-	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String addIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("productId") UUID productId, @RequestParam("weight") Double weight, @RequestParam("mealId") UUID mealId) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
-			Meal meal = mealRepository.findOneById(mealId);
+			Meal meal = mealRepository.findOne(mealId);
 
 			if (user.getId().equals(meal.getUserId())) {
-				Ingredient ingredient = new Ingredient(UUID.randomUUID(), productRepository.findOneById(productId), weight, meal);
+				Ingredient ingredient = new Ingredient(UUID.randomUUID(), productRepository.findOne(productId), weight, meal);
 				ingredientRepository.save(ingredient);
 				return "{\"id\":\"" + ingredient.getId() + "\"}";
 			}
@@ -59,15 +59,16 @@ public class IngredientController {
 		}
 	}
 
-	@RequestMapping(value = "/change", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/change", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String changeIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "weight", required = false) Double weight) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
-			Ingredient ingredient = ingredientRepository.findOneById(id);
+			Ingredient ingredient = ingredientRepository.findOne(id);
 
 			if (user.getId().equals(ingredient.getMeal().getUserId())) {
 				if (weight != null) ingredient.setWeight(weight);
+				ingredientRepository.save(ingredient);
 				return "{\"result\":true}";
 			}
 			else throw new NotAuthorizedException();
@@ -79,12 +80,12 @@ public class IngredientController {
 		}
 	}
 
-	@RequestMapping(value = "/erase", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/erase", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String eraseIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id) {
 		try {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
-			Ingredient ingredient = ingredientRepository.findOneById(id);
+			Ingredient ingredient = ingredientRepository.findOne(id);
 
 			if (user.getId().equals(ingredient.getMeal().getUserId())) {
 				ingredientRepository.delete(ingredient);
@@ -99,11 +100,11 @@ public class IngredientController {
 		}
 	}
 
-	@RequestMapping(value = "/getList", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/getList", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Iterable<Ingredient> getListOfIngredients(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("mealId") UUID mealId) {
 		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
-		Meal meal = mealRepository.findOneById(mealId);
+		Meal meal = mealRepository.findOne(mealId);
 		if (user.getId().equals(meal.getUserId())) return ingredientRepository.findByMeal(meal);
 		else throw new NotAuthorizedException();
 	}
@@ -113,7 +114,7 @@ public class IngredientController {
 	@ResponseBody
 	public String createIngredient(@RequestParam("product_id") UUID productId, @RequestParam("weight") Double weight, @RequestParam("meal_id") UUID mealId) {
 		try {
-			Ingredient ingredient = new Ingredient(UUID.randomUUID(), productRepository.findOneById(productId), weight, mealRepository.findOneById(mealId));
+			Ingredient ingredient = new Ingredient(UUID.randomUUID(), productRepository.findOne(productId), weight, mealRepository.findOne(mealId));
 			ingredientRepository.save(ingredient);
 			return "{\"id\":\"" + ingredient.getId() + "\"}";
 
@@ -134,10 +135,10 @@ public class IngredientController {
 	@ResponseBody
 	public String updateIngredient(@RequestParam("id") UUID id, @RequestParam(value = "product_id", required = false) UUID productId, @RequestParam(value = "weight", required = false) Double weight, @RequestParam(value = "meal_id", required = false) UUID mealId) {
 		try {
-			Ingredient ingredient = ingredientRepository.findOneById(id);
-			if (productId != null) ingredient.setProduct(productRepository.findOneById(productId));
+			Ingredient ingredient = ingredientRepository.findOne(id);
+			if (productId != null) ingredient.setProduct(productRepository.findOne(productId));
 			if (weight != null) ingredient.setWeight(weight);
-			if (mealId != null) ingredient.setMeal(mealRepository.findOneById(mealId));
+			if (mealId != null) ingredient.setMeal(mealRepository.findOne(mealId));
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
@@ -150,7 +151,7 @@ public class IngredientController {
 	@ResponseBody
 	public String deleteIngredient(@RequestParam("id") UUID id) {
 		try {
-			ingredientRepository.delete(ingredientRepository.findOneById(id));
+			ingredientRepository.delete(ingredientRepository.findOne(id));
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {

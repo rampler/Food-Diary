@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "meal")
-@JsonIgnoreProperties({ "user" })
+@JsonIgnoreProperties({"user"})
 public class Meal {
 	@Id
 	@Type(type = "pg-uuid")

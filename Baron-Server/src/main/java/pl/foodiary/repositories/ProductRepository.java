@@ -11,7 +11,6 @@ import java.util.UUID;
  * Created by Mateusz on 2014-11-27.
  */
 @Repository
-public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
-	Product findOneById(UUID id);
+public interface ProductRepository extends PagingAndSortingRepository<Product, UUID> {
 	Iterable<Product> findByCategory(ProductCategory category);
 }

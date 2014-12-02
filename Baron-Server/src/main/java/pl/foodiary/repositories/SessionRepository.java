@@ -11,7 +11,6 @@ import java.util.UUID;
  * Created by Mateusz on 2014-11-30.
  */
 @Repository
-public interface SessionRepository extends PagingAndSortingRepository<Session, Long> {
-	Session findOneById(UUID id);
+public interface SessionRepository extends PagingAndSortingRepository<Session, UUID> {
 	Iterable<Session> findByUser(User user);
 }

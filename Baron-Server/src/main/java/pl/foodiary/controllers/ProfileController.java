@@ -33,13 +33,13 @@ public class ProfileController {
 
 	//API 2.0
 
-	@RequestMapping(value = "/get", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/get", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Profile getProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		return profileRepository.findOneByUser(sessionService.checkSession(sessionId, request.getRemoteAddr()));
 	}
 
-	@RequestMapping(value = "/new", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/new", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String newProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("weight") Double weight, @RequestParam("caloriesCounter") Double caloriesCounter, @RequestParam("age") Integer age) {
 		try {
@@ -55,7 +55,7 @@ public class ProfileController {
 		}
 	}
 
-	@RequestMapping(value = "/change", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json")
+	@RequestMapping(value = "/change", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String changeProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "firstName", required = false) String firstName, @RequestParam(value = "lastName", required = false) String lastName, @RequestParam(value = "weight", required = false) Double weight, @RequestParam(value = "caloriesCounter", required = false) Double caloriesCounter, @RequestParam(value = "age", required = false) Integer age) {
 		try {
@@ -81,7 +81,7 @@ public class ProfileController {
 	@ResponseBody
 	public String createProfile(@RequestParam("first_name") String firstName, @RequestParam("last_name") String lastName, @RequestParam("weight") Double weight, @RequestParam("calories_counter") Double caloriesCounter, @RequestParam("age") Integer age, @RequestParam("user_id") UUID userId) {
 		try {
-			Profile profile = new Profile(UUID.randomUUID(), firstName, lastName, weight, caloriesCounter, age, userRepository.findOneById(userId));
+			Profile profile = new Profile(UUID.randomUUID(), firstName, lastName, weight, caloriesCounter, age, userRepository.findOne(userId));
 			profileRepository.save(profile);
 			return "{\"id\":\"" + profile.getId() + "\"}";
 		}
@@ -95,7 +95,7 @@ public class ProfileController {
 	@ResponseBody
 	public String isUserHaveProfile(@RequestParam("user_id") UUID userId) {
 		try {
-			Long count = profileRepository.countByUser(userRepository.findOneById(userId));
+			Long count = profileRepository.countByUser(userRepository.findOne(userId));
 			if (count == 1) return "{\"result\":true}";
 			else return "{\"result\":false}";
 		}
@@ -115,13 +115,13 @@ public class ProfileController {
 	@ResponseBody
 	public String updateProfile(@RequestParam("id") UUID id, @RequestParam(value = "first_name", required = false) String firstName, @RequestParam(value = "last_name", required = false) String lastName, @RequestParam(value = "weight", required = false) Double weight, @RequestParam(value = "calories_counter", required = false) Double caloriesCounter, @RequestParam(value = "age", required = false) Integer age, @RequestParam(value = "user_id", required = false) UUID userId) {
 		try {
-			Profile profile = profileRepository.findOneById(id);
+			Profile profile = profileRepository.findOne(id);
 			if (firstName != null) profile.setFirstName(firstName);
 			if (lastName != null) profile.setLastName(lastName);
 			if (weight != null) profile.setWeight(weight);
 			if (caloriesCounter != null) profile.setCaloriesCounter(caloriesCounter);
 			if (age != null) profile.setAge(age);
-			if (userId != null) profile.setUser(userRepository.findOneById(userId));
+			if (userId != null) profile.setUser(userRepository.findOne(userId));
 			profileRepository.save(profile);
 			return "{\"result\":true}";
 		}
@@ -135,7 +135,7 @@ public class ProfileController {
 	@ResponseBody
 	public String deleteProfile(@RequestParam("id") UUID id) {
 		try {
-			profileRepository.delete(profileRepository.findOneById(id));
+			profileRepository.delete(profileRepository.findOne(id));
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
