@@ -12,5 +12,6 @@ import java.util.UUID;
  */
 @Repository
 public interface IngredientRepository extends PagingAndSortingRepository<Ingredient, UUID> {
+	long countByMeal(Meal meal);
 	Iterable<Ingredient> findByMeal(Meal meal);
 }

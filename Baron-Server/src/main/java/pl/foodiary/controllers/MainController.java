@@ -6,11 +6,9 @@ package pl.foodiary.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.foodiary.Application;
 
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,7 +18,7 @@ public class MainController {
 	@RequestMapping("/")
 	@ResponseBody
 	String home() {
-		String version = "0.11.0";
+		String version = "0.11.3";
 		return "<style type=\"text/css\">\n" +
 				"table, td\n" +
 				"{\n" +
@@ -48,51 +46,4 @@ public class MainController {
 				(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())) + "<br />Version: " + version +
 				Application.mainAPI2 + Application.mainAPI;
 	}
-
-	//TODO to erase in final version
-	@RequestMapping("/baron/update")
-	@ResponseBody
-	public String updateBaron(@RequestParam("text") String api) {
-		Application.mainAPI = api;
-		try {
-			PrintWriter out = new PrintWriter("mainScreen.baronapi", "UTF-8");
-			out.println(api);
-			out.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return "failed!";
-		}
-		return "ok!";
-	}
-
-	@RequestMapping("/baron/update2")
-	@ResponseBody
-	public String update2Baron(@RequestParam("text") String api) {
-		Application.mainAPI2 = api;
-		try {
-			PrintWriter out = new PrintWriter("mainScreen2.baronapi", "UTF-8");
-			out.println(api);
-			out.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return "failed!";
-		}
-		return "ok!";
-	}
-
-	@RequestMapping(value = "/baron/show", produces = "text/plain")
-	@ResponseBody
-	public String listBaron() {
-		return Application.mainAPI;
-	}
-
-	@RequestMapping(value = "/baron/show2", produces = "text/plain")
-	@ResponseBody
-	public String list2Baron() {
-		return Application.mainAPI2;
-	}
-	//TODO END
-
 }

@@ -13,6 +13,10 @@ import java.util.UUID;
  */
 @Repository
 public interface MealRepository extends PagingAndSortingRepository<Meal, UUID> {
+	long countByUser(User user);
+	long countByConsumptionDay(Date consumptionDay);
+	long countByUserAndConsumptionDay(User user, Date consumptionDay);
 	Iterable<Meal> findByUser(User user);
+	Iterable<Meal> findByConsumptionDay(Date consumptionDay);
 	Iterable<Meal> findByUserAndConsumptionDay(User user, Date consumptionDay);
 }
