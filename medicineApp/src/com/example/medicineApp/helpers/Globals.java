@@ -14,6 +14,7 @@ public class Globals {
     private List<Product> products = new ArrayList<Product>();
     private String sessionId = "";
     private static final String ServerURL = "http://foodiary.herokuapp.com";
+    private boolean hasProfile = false;
 
     private Globals(){}
 
@@ -46,5 +47,13 @@ public class Globals {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public boolean isHasProfile() {
+        return hasProfile;
+    }
+
+    public void setHasProfile(boolean hasProfile) {
+        this.hasProfile = hasProfile;
     }
 }

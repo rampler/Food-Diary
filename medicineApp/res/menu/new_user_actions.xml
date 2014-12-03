@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_logout"
+          android:icon="@drawable/ic_action_remove"
+          android:title="Log Out"
+          android:showAsAction="always" />
+    <item android:id="@+id/action_createProfile"
+          android:icon="@drawable/ic_action_new"
+          android:title="Create Profile"
+          android:showAsAction="always" />
+</menu>

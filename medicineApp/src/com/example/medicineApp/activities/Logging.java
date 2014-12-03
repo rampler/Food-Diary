@@ -107,15 +107,47 @@ public class Logging extends Activity {
     }
 
     private void HandleUserLoggingSuccess() {
-        DialogControl.hideDialog(pDialog);
-        Toast.makeText(getApplicationContext(), "User logged in", Toast.LENGTH_SHORT);
-        Intent intent = new Intent(getApplicationContext(), UserProfile.class);
-        startActivity(intent);
-        finish();
+        CheckForProfile();
     }
 
     private void HandleUserLoggingError() {
         Toast.makeText(getApplicationContext(), "Error while logging in", Toast.LENGTH_SHORT).show();
         DialogControl.hideDialog(pDialog);
+    }
+
+    private void CheckForProfile() {
+        pDialog.show();
+        String uri = String.format(g.getServerURL() + "/user/hasProfile?sessionId=%1$s", g.getSessionId());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                uri, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+                try {
+                    String result = response.getString("result");
+                    if (result.equals("true")) {
+                        g.setHasProfile(true);
+                    } else g.setHasProfile(false);
+                    DialogControl.hideDialog(pDialog);
+                    Toast.makeText(getApplicationContext(), "User logged in", Toast.LENGTH_SHORT);
+                    Intent intent = new Intent(getApplicationContext(), UserProfile.class);
+                    startActivity(intent);
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast t = Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT);
+                t.show();
+            }
+        });
+        AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 }

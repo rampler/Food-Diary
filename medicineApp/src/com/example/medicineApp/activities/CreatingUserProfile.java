@@ -52,18 +52,15 @@ public class CreatingUserProfile extends Activity {
 
             @Override
             public void onClick(View v) {
-                CreateNewProfile();
+                CreateNew();
             }
         });
 
     }
 
-    private void CreateNewProfile() {
+    private void CreateNew() {
 
         DialogControl.showDialog(pDialog);
-
-
-
 
         String uri2 = String.format(g.getServerURL() + "/profile/new?sessionId=%1$s&firstName=%2$s&lastName=%3$s&weight=%4$s&caloriesCounter=%5$s&age=%6$s",
                 g.getSessionId(),
@@ -116,18 +113,17 @@ public class CreatingUserProfile extends Activity {
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 
-
-
     private void SetControls() {
         newProfileButton = (Button) findViewById(R.id.profile_create_button);
         firstname = (EditText) findViewById(R.id.profile_user_name);
         surname = (EditText) findViewById(R.id.profile_user_surname);
         weight = (EditText) findViewById(R.id.profile_user_weight);
-        calories = (EditText) findViewById(R.id.profile_user_weight);
+        calories = (EditText) findViewById(R.id.profile_user_calories);
         age = (EditText) findViewById(R.id.profile_user_age);
     }
 
     private void HandleProfileCreatingSuccess() {
+        g.setHasProfile(true);
         DialogControl.hideDialog(pDialog);
         Toast.makeText(getApplicationContext(), "New profile created", Toast.LENGTH_SHORT);
         Intent intent = new Intent(getApplicationContext(), UserProfile.class);

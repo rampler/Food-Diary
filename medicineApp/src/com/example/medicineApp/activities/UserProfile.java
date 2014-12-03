@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -53,7 +52,11 @@ public class UserProfile extends Activity {
 
         g = Globals.getInstance();
 
-        btnMakeArrayRequest = (Button) findViewById(R.id.download_products);
+        if (!g.isHasProfile()) CreateNewProfile();
+
+
+
+        /*btnMakeArrayRequest = (Button) findViewById(R.id.download_products);
         createNewProfile = (Button) findViewById(R.id.createProfileButton);
 
         productListView = (ListView) findViewById(R.id.productListView);
@@ -70,26 +73,21 @@ public class UserProfile extends Activity {
             public void onClick(View v) {
                 makeJsonArrayRequest();
             }
-        });
-        createNewProfile.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                CreateNewProfile();
-            }
-        });
+        });*/
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity_actions, menu);
+        if (!g.isHasProfile())
+            inflater.inflate(R.menu.new_user_actions, menu);
+        else inflater.inflate(R.menu.user_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
+            case R.id.action_logout:
                 try {
                     if (Session.LogOut(this)) {
                         Toast.makeText(getApplicationContext(), "User no longer logged in", Toast.LENGTH_SHORT).show();
@@ -172,37 +170,12 @@ public class UserProfile extends Activity {
             pDialog.dismiss();
     }
 
+
     private void CreateNewProfile() {
-        String uri = String.format(g.getServerURL() + "user/hasProfile?sessionId=%1$s", g.getSessionId());
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                uri, null, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(TAG, response.toString());
-                try {
-                    String result = response.getString("result");
-                    if (result.equals("false")) {
-                        Intent intent = new Intent(getApplicationContext(), CreatingUserProfile.class);
-                        startActivity(intent);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast t = Toast.makeText(getApplicationContext(), "A profile already exists", Toast.LENGTH_SHORT);
-                t.show();
-            }
-        });
-        AppController.getInstance().addToRequestQueue(jsonObjReq);
+        Intent intent = new Intent(getApplicationContext(), CreatingUserProfile.class);
+        startActivity(intent);
+        finish();
     }
-
 
 
 }
