@@ -35,7 +35,7 @@ public class UserController {
 	@RequestMapping(value = "/erase", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public void deleteAccount(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
-		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+		User user = sessionService.checkSession(sessionId, request);
 		userRepository.delete(user);
 	}
 
@@ -43,7 +43,7 @@ public class UserController {
 	@ResponseBody
 	public String hasProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Long count = profileRepository.countByUser(user);
 			if (count == 1) return "{\"result\":true}";
 			else return "{\"result\":false}";

@@ -8,6 +8,7 @@ import pl.foodiary.exceptions.NotAuthorizedException;
 import pl.foodiary.repositories.SessionRepository;
 import pl.foodiary.repositories.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.UUID;
 
@@ -27,12 +28,14 @@ public class SessionService {
 	 * Method checks is session is still active.
 	 *
 	 * @param sessionId - Session ID
-	 * @param ipAddress - Ip Address
+	 * @param request - HttpServletRequest
 	 * @return User / Code 403
 	 */
-	public User checkSession(UUID sessionId, String ipAddress) {
+	public User checkSession(UUID sessionId, HttpServletRequest request) {
 		try {
 			Session session = sessionRepository.findOne(sessionId);
+			String ipAddress = getIpAddress(request);
+
 			if ((session.getLastActivityDate().getTime() - System.currentTimeMillis()) / (1000 * 60) < 30 && session.getIpAddress().equals(ipAddress)) {
 				session.setLastActivityDate(new Date());
 				sessionRepository.save(session);
@@ -47,5 +50,17 @@ public class SessionService {
 			System.out.println(e.getMessage());
 			throw new NotAuthorizedException();
 		}
+	}
+
+	public String getIpAddress(HttpServletRequest request) {
+		String ipAddress = request.getRemoteAddr();
+
+		String requestId = request.getHeader("X-Forwarded-For");
+		if (requestId != null) {
+			String[] list = requestId.split(",");
+			ipAddress = list[list.length - 1];
+		}
+
+		return ipAddress;
 	}
 }

@@ -40,7 +40,7 @@ public class StatisticsController {
 	@RequestMapping(value = "/macronutrients", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public ConsumptionReview getConsumptionReview(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date consumptionDay, @RequestParam(value = "mealId", required = false) UUID mealId) {
-		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+		User user = sessionService.checkSession(sessionId, request);
 		if (mealId != null) {
 			Meal meal = mealRepository.findOne(mealId);
 			if (consumptionDay != null && !consumptionDay.equals(meal.getConsumptionDay()))
@@ -61,7 +61,7 @@ public class StatisticsController {
 	@ResponseBody
 	public Counters getCounters(HttpServletRequest request, @RequestParam(value = "sessionId", required = false) UUID sessionId, @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		if (sessionId != null) {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			if (date != null) return statisticService.calculateUserCounters(user, date);
 			return statisticService.calculateUserCounters(user);
 		}
