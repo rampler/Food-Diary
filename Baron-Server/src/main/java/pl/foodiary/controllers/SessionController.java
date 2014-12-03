@@ -27,7 +27,7 @@ public class SessionController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@RequestMapping(value = "/login",method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String login(HttpServletRequest request, @RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
@@ -37,34 +37,33 @@ public class SessionController {
 				sessionRepository.save(session);
 				return "{\"id\":\"" + session.getId() + "\"}";
 			}
-			else {
-				throw new NotAuthorizedException(login);
-			}
+			else throw new NotAuthorizedException(login);
 		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw new NotAuthorizedException(login);
-		}
-	}
-
-	@RequestMapping(value = "/register",method = RequestMethod.GET, produces = "application/json")
-	@ResponseBody
-	public String register(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("mail_address") String email) {
-		try {
-			User user = new User(UUID.randomUUID(), login.toLowerCase(), password, email);
-			userRepository.save(user);
-			return "{\"id\":\"" + user.getId() + "\"}";
-		}
+		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/register", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
-	public void logout(@RequestParam("session_id") UUID sessionId) {
-		sessionRepository.delete(sessionRepository.findOneById(sessionId));
+	public String register(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("mailAddress") String email) {
+		try {
+			User user = new User(UUID.randomUUID(), login.toLowerCase(), password, email);
+			userRepository.save(user);
+			return "{\"result\":true}";
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "{\"result\":false}";
+		}
+	}
+
+	@RequestMapping(value = "/logout", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public void logout(@RequestParam("sessionId") UUID sessionId) {
+		sessionRepository.delete(sessionRepository.findOne(sessionId));
 	}
 
 }

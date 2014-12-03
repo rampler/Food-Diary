@@ -20,7 +20,7 @@ public class MainController {
 	@RequestMapping("/")
 	@ResponseBody
 	String home() {
-		String version = "0.8.2";
+		String version = "0.11.0";
 		return "<style type=\"text/css\">\n" +
 				"table, td\n" +
 				"{\n" +
@@ -45,8 +45,8 @@ public class MainController {
 				"</style>" +
 				"<h1>Welcome on Food Diary Server - Baron!</h1>" +
 				"<h2>LET'S THE DEATH MARCH BEGIN!</h2>" +
-				(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())) + "<br />Version: "+version+
-				Application.mainAPI;
+				(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())) + "<br />Version: " + version +
+				Application.mainAPI2 + Application.mainAPI;
 	}
 
 	//TODO to erase in final version
@@ -66,10 +66,32 @@ public class MainController {
 		return "ok!";
 	}
 
+	@RequestMapping("/baron/update2")
+	@ResponseBody
+	public String update2Baron(@RequestParam("text") String api) {
+		Application.mainAPI2 = api;
+		try {
+			PrintWriter out = new PrintWriter("mainScreen2.baronapi", "UTF-8");
+			out.println(api);
+			out.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return "failed!";
+		}
+		return "ok!";
+	}
+
 	@RequestMapping(value = "/baron/show", produces = "text/plain")
 	@ResponseBody
 	public String listBaron() {
 		return Application.mainAPI;
+	}
+
+	@RequestMapping(value = "/baron/show2", produces = "text/plain")
+	@ResponseBody
+	public String list2Baron() {
+		return Application.mainAPI2;
 	}
 	//TODO END
 

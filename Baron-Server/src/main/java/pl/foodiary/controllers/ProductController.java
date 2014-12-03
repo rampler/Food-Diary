@@ -22,31 +22,40 @@ public class ProductController {
 	@Autowired
 	private ProductRepository productRepository;
 
-	@RequestMapping("/list")
+	//API 2.0
+	@RequestMapping(value = "/get", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public Iterable<Product> listAllProducts() {
-		return productRepository.findAll();
+	public Product getProduct(@RequestParam("id") UUID id) {
+		return productRepository.findOne(id);
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET, produces = "application/json")
+	//API 1.0 and 2.0
+	@RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String createProduct(@RequestParam("name") String name, @RequestParam("calories") Double calories, @RequestParam("fat") Double fat, @RequestParam("carbon") Double carbon, @RequestParam("protein") Double protein, @RequestParam("category") String category) {
-		Product product = new Product(UUID.randomUUID(), name, calories, carbon, protein, fat, ProductCategory.valueOf(category));
+	public Iterable<Product> listAllProducts(@RequestParam(value = "category", required = false) String category) {
+		if (category != null) return productRepository.findByCategory(ProductCategory.valueOf(category));
+		else return productRepository.findAll();
+	}
+
+	@RequestMapping(value = "/create", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
+	@ResponseBody
+	public String createProduct(@RequestParam("name") String name, @RequestParam("calories") Double calories, @RequestParam("fat") Double fat, @RequestParam("carbs") Double carbs, @RequestParam("protein") Double protein, @RequestParam("category") String category) {
+		Product product = new Product(UUID.randomUUID(), name, calories, carbs, protein, fat, ProductCategory.valueOf(category));
 		productRepository.save(product);
 		return "{\"id\":\"" + product.getId() + "\"}";
 	}
 
-	@RequestMapping(value = "/categories", method = RequestMethod.GET)
+	@RequestMapping(value = "/categories", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public ProductCategory[] getProductCategories() {
 		return ProductCategory.values();
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/update", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String updateProduct(@RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "calories", required = false) Double calories, @RequestParam(value = "fat", required = false) Double fat, @RequestParam(value = "carbs", required = false) Double carbs, @RequestParam(value = "protein", required = false) Double protein, @RequestParam(value = "category", required = false) String category) {
 		try {
-			Product product = productRepository.findOneById(id);
+			Product product = productRepository.findOne(id);
 			if (calories != null) product.setCalories(calories);
 			if (name != null) product.setName(name);
 			if (carbs != null) product.setCarbs(carbs);
@@ -62,11 +71,11 @@ public class ProductController {
 		}
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/delete", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String deleteProduct(@RequestParam("id") UUID id) {
 		try {
-			productRepository.delete(productRepository.findOneById(id));
+			productRepository.delete(productRepository.findOne(id));
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {

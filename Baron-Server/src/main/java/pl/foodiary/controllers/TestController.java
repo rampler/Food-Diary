@@ -53,7 +53,7 @@ public class TestController {
 		Product product = new Product(UUID.randomUUID(), "Wołowina", 100.0, 101.0, 102.0, 103.0, ProductCategory.MEAT);
 		productRepository.save(product);
 
-		Ingredient meal = new Ingredient(UUID.randomUUID(), product, 300, mealData);
+		Ingredient meal = new Ingredient(UUID.randomUUID(), product, 300.0, mealData);
 		ingredientRepository.save(meal);
 
 		return meal;

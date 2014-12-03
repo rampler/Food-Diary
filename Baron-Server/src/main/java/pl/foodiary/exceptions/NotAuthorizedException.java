@@ -7,12 +7,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Created by Mateusz on 2014-11-30.
  */
 @ResponseStatus(value = HttpStatus.FORBIDDEN)
-public class NotAuthorizedException extends RuntimeException  {
+public class NotAuthorizedException extends RuntimeException {
 	private String userName;
+
+	public NotAuthorizedException() {}
 
 	public NotAuthorizedException(String userName) {
 		this.userName = userName;
 	}
+
 	/**
 	 * Returns the detail message string of this throwable.
 	 *
@@ -21,6 +24,6 @@ public class NotAuthorizedException extends RuntimeException  {
 	 */
 	@Override
 	public String getMessage() {
-		return "User "+userName+" unauthorized.";
+		return (userName != null) ? "User " + userName + " unauthorized." : "Unauthorized session";
 	}
 }

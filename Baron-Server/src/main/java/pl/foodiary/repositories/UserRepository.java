@@ -10,7 +10,6 @@ import java.util.UUID;
  * Created by Mateusz on 2014-11-27.
  */
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+public interface UserRepository extends PagingAndSortingRepository<User, UUID> {
 	User findOneByLogin(String login);
-	User findOneById(UUID id);
 }

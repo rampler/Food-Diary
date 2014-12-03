@@ -1,5 +1,8 @@
 package pl.foodiary.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -15,19 +18,20 @@ public class Ingredient {
 	@Type(type = "pg-uuid")
 	private UUID id;
 
-	@OneToOne
+	@ManyToOne
 	private Product product;
 
 	@Column
-	private Integer weight;
+	private Double weight;
 
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Meal meal;
 
 	public Ingredient() {
 	}
 
-	public Ingredient(UUID id, Product product, Integer weight, Meal meal) {
+	public Ingredient(UUID id, Product product, Double weight, Meal meal) {
 		this.id = id;
 		this.product = product;
 		this.weight = weight;
@@ -50,11 +54,11 @@ public class Ingredient {
 		this.product = product;
 	}
 
-	public Integer getWeight() {
+	public Double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(Integer weight) {
+	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
 
@@ -65,4 +69,10 @@ public class Ingredient {
 	public void setMeal(Meal meal) {
 		this.meal = meal;
 	}
+
+	@JsonProperty("meal")
+	public UUID getMealId() { return meal.getId(); }
+
+	@JsonProperty("product")
+	public UUID getProductId() { return product.getId(); }
 }
