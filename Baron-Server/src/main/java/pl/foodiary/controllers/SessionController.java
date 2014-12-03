@@ -11,6 +11,7 @@ import pl.foodiary.domain.User;
 import pl.foodiary.exceptions.NotAuthorizedException;
 import pl.foodiary.repositories.SessionRepository;
 import pl.foodiary.repositories.UserRepository;
+import pl.foodiary.services.SessionService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -27,13 +28,16 @@ public class SessionController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private SessionService sessionService;
+
 	@RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String login(HttpServletRequest request, @RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
 			User user = userRepository.findOneByLogin(login);
 			if (user.getPassword().equals(password)) {
-				Session session = new Session(UUID.randomUUID(), userRepository.findOneByLogin(login), new Date(), request.getRemoteAddr());
+				Session session = new Session(UUID.randomUUID(), userRepository.findOneByLogin(login), new Date(), sessionService.getIpAddress(request));
 				sessionRepository.save(session);
 				return "{\"id\":\"" + session.getId() + "\"}";
 			}
@@ -42,7 +46,7 @@ public class SessionController {
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			throw new NotAuthorizedException(login);
 		}
 	}
 

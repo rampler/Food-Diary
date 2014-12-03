@@ -12,6 +12,7 @@ import pl.foodiary.repositories.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -62,6 +63,13 @@ public class TestController {
 	@RequestMapping("/ip")
 	@ResponseBody
 	public String getIp(HttpServletRequest request) {
-		return request.getRemoteAddr();
+		String response = "";
+		String requestId = request.getHeader("X-Forwarded-For");
+		if (requestId != null) {
+			String[] list = requestId.split(",");
+			requestId = list[list.length - 1];
+			response += requestId;
+		}
+		return response + " - " + request.getRemoteAddr();
 	}
 }

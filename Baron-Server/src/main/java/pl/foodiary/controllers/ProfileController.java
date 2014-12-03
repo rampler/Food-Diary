@@ -36,14 +36,14 @@ public class ProfileController {
 	@RequestMapping(value = "/get", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Profile getProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId) {
-		return profileRepository.findOneByUser(sessionService.checkSession(sessionId, request.getRemoteAddr()));
+		return profileRepository.findOneByUser(sessionService.checkSession(sessionId, request));
 	}
 
 	@RequestMapping(value = "/new", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String newProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("weight") Double weight, @RequestParam("caloriesCounter") Double caloriesCounter, @RequestParam("age") Integer age) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Profile profile = new Profile(UUID.randomUUID(), firstName, lastName, weight, caloriesCounter, age, user);
 			profileRepository.save(profile);
 			return "{\"id\":\"" + profile.getId() + "\"}";
@@ -59,7 +59,7 @@ public class ProfileController {
 	@ResponseBody
 	public String changeProfile(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "firstName", required = false) String firstName, @RequestParam(value = "lastName", required = false) String lastName, @RequestParam(value = "weight", required = false) Double weight, @RequestParam(value = "caloriesCounter", required = false) Double caloriesCounter, @RequestParam(value = "age", required = false) Integer age) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Profile profile = profileRepository.findOneByUser(user);
 			if (firstName != null) profile.setFirstName(firstName);
 			if (lastName != null) profile.setLastName(lastName);

@@ -42,7 +42,7 @@ public class IngredientController {
 	@ResponseBody
 	public String addIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("productId") UUID productId, @RequestParam("weight") Double weight, @RequestParam("mealId") UUID mealId) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Meal meal = mealRepository.findOne(mealId);
 
 			if (user.getId().equals(meal.getUserId())) {
@@ -63,7 +63,7 @@ public class IngredientController {
 	@ResponseBody
 	public String changeIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "weight", required = false) Double weight) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Ingredient ingredient = ingredientRepository.findOne(id);
 
 			if (user.getId().equals(ingredient.getMeal().getUserId())) {
@@ -84,7 +84,7 @@ public class IngredientController {
 	@ResponseBody
 	public String eraseIngredient(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Ingredient ingredient = ingredientRepository.findOne(id);
 
 			if (user.getId().equals(ingredient.getMeal().getUserId())) {
@@ -103,7 +103,7 @@ public class IngredientController {
 	@RequestMapping(value = "/getList", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Iterable<Ingredient> getListOfIngredients(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("mealId") UUID mealId) {
-		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+		User user = sessionService.checkSession(sessionId, request);
 		Meal meal = mealRepository.findOne(mealId);
 		if (user.getId().equals(meal.getUserId())) return ingredientRepository.findByMeal(meal);
 		else throw new NotAuthorizedException();

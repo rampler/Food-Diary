@@ -37,7 +37,7 @@ public class WorkoutController {
 	@ResponseBody
 	public String setDone(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam("done") Boolean done) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Workout workout = workoutRepository.findOne(id);
 
 			if (user.getId().equals(workout.getUserId())) {
@@ -58,7 +58,7 @@ public class WorkoutController {
 	@ResponseBody
 	public String addWorkout(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("exerciseId") UUID exerciseId, @RequestParam("repeats") Integer repeats, @RequestParam("quantity") Double quantity, @RequestParam("workoutDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date workoutDate) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Workout workout = new Workout(UUID.randomUUID(), user, exerciseRepository.findOne(exerciseId), repeats, quantity, workoutDate, false);
 			workoutRepository.save(workout);
 			return "{\"id\":\"" + workout.getId() + "\"}";
@@ -74,7 +74,7 @@ public class WorkoutController {
 	@ResponseBody
 	public String changeWorkout(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "repeats", required = false) Integer repeats, @RequestParam(value = "quantity", required = false) Double quantity, @RequestParam(value = "workoutDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date workoutDate, @RequestParam(value = "done", required = false) Boolean done) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Workout workout = workoutRepository.findOne(id);
 
 			if (user.getId().equals(workout.getUserId())) {
@@ -98,7 +98,7 @@ public class WorkoutController {
 	@ResponseBody
 	public String eraseWorkout(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Workout workout = workoutRepository.findOne(id);
 
 			if (user.getId().equals(workout.getUserId())) {
@@ -117,7 +117,7 @@ public class WorkoutController {
 	@RequestMapping(value = "getList", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Iterable<Workout> getListOfWorkouts(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "workoutDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date workoutDate) {
-		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+		User user = sessionService.checkSession(sessionId, request);
 		if (workoutDate != null) return workoutRepository.findByUserAndWorkoutDate(user, workoutDate);
 		return workoutRepository.findByUser(user);
 	}

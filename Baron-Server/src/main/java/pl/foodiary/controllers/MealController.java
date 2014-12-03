@@ -38,7 +38,7 @@ public class MealController {
 	@RequestMapping(value = "/getList", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Iterable<Meal> getListOfUserMeals(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-		User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+		User user = sessionService.checkSession(sessionId, request);
 		if (date == null) return mealRepository.findByUser(user);
 		else return mealRepository.findByUserAndConsumptionDay(user, date);
 	}
@@ -47,7 +47,7 @@ public class MealController {
 	@ResponseBody
 	public String addMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("name") String name, @RequestParam("consumptionDay") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Meal meal = new Meal(UUID.randomUUID(), name, date, user);
 			mealRepository.save(meal);
 			return "{\"id\":\"" + meal.getId() + "\"}";
@@ -63,7 +63,7 @@ public class MealController {
 	@ResponseBody
 	public String changeMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Meal meal = mealRepository.findOne(id);
 
 			if (user.getId().equals(meal.getUserId())) {
@@ -85,7 +85,7 @@ public class MealController {
 	@ResponseBody
 	public String eraseMeal(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id) {
 		try {
-			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
+			User user = sessionService.checkSession(sessionId, request);
 			Meal meal = mealRepository.findOne(id);
 
 			if (user.getId().equals(meal.getUserId())) {
