@@ -7,17 +7,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/userIdEdit"
             android:ems="10"
             android:id="@+id/userIdEdit" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
-            android:layout_marginTop="148dp" android:editable="true" android:onClick="ClearIdText"/>
+            android:layout_marginTop="148dp" android:editable="true" android:onClick="ClearIdText"
+            android:hint="Your username"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/passwordEdit" android:layout_below="@+id/userIdEdit" android:layout_centerHorizontal="true"
-            android:text="@string/passwordEdit" android:onClick="ClearPasswordText"/>
+            android:onClick="ClearPasswordText" android:hint="Password"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

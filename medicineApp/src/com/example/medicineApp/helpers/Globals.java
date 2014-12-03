@@ -1,6 +1,7 @@
 package com.example.medicineApp.helpers;
 
 import com.example.medicineApp.objects.Product;
+import com.example.medicineApp.objects.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Globals {
     private String sessionId = "";
     private static final String ServerURL = "http://foodiary.herokuapp.com";
     private boolean hasProfile = false;
+    private User user;
 
     private Globals(){}
 
@@ -55,5 +57,13 @@ public class Globals {
 
     public void setHasProfile(boolean hasProfile) {
         this.hasProfile = hasProfile;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

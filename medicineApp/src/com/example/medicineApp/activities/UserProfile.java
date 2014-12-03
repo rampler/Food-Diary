@@ -1,5 +1,6 @@
 package com.example.medicineApp.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.medicineApp.helpers.*;
 import com.example.medicineApp.R;
 import com.example.medicineApp.objects.Product;
+import com.example.medicineApp.objects.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,10 +33,7 @@ public class UserProfile extends Activity {
 
 
     private static String TAG = UserProfile.class.getSimpleName();
-    private Button btnMakeObjectRequest, btnMakeArrayRequest;
-    private Button createNewProfile;
 
-    // Progress dialog
     private ProgressDialog pDialog;
 
     private ListView productListView;
@@ -53,6 +52,7 @@ public class UserProfile extends Activity {
         g = Globals.getInstance();
 
         if (!g.isHasProfile()) CreateNewProfile();
+        GetUserProfile();
 
 
 
@@ -103,8 +103,7 @@ public class UserProfile extends Activity {
         }
     }
 
-    private void makeJsonArrayRequest() {
-        showpDialog();
+    /*private void makeJsonArrayRequest() {
         String urlJsonArry = g.getServerURL() + "/product/list.json";
         JsonArrayRequest req = new JsonArrayRequest(urlJsonArry,
                 new Response.Listener<JSONArray>() {
@@ -140,7 +139,6 @@ public class UserProfile extends Activity {
                                     Toast.LENGTH_LONG).show();
                         }
 
-                        hidepDialog();
                         productListView = (ListView) findViewById(R.id.productListView);
                         productListView.setAdapter(listAdapter);
 
@@ -151,25 +149,12 @@ public class UserProfile extends Activity {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
-                hidepDialog();
             }
         });
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(req);
-    }
-
-
-    private void showpDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hidepDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
-
+    }*/
 
     private void CreateNewProfile() {
         Intent intent = new Intent(getApplicationContext(), CreatingUserProfile.class);
@@ -177,5 +162,69 @@ public class UserProfile extends Activity {
         finish();
     }
 
+    private void PrintProfileInfo() {
+        TextView text = (TextView) findViewById(R.id.profile_nameEdit);
+        text.setText(g.getUser().getFirstName());
+        text = (TextView) findViewById(R.id.profile_surnameEdit);
+        text.setText(g.getUser().getLastName());
+        text = (TextView) findViewById(R.id.profile_weightEdit);
+        text.setText(g.getUser().getWeight());
+        text = (TextView) findViewById(R.id.profile_ageEdit);
+        text.setText(g.getUser().getAge());
+        text = (TextView) findViewById(R.id.profile_caloriesEdit);
+        text.setText(g.getUser().getCalories());
+    }
+
+    private void GetUserProfile() {
+        CreateAndShowDialog();
+
+        String uri = String.format(g.getServerURL() + "/profile/get?sessionId=%1$s", g.getSessionId());
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, uri, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                                                        
+                                String id = response.getString("id");
+                                User user = new User(response.getString("firstName"),
+                                        response.getString("lastName"),
+                                        response.getString("weight"),
+                                        response.getString("age"),
+                                        response.getString("caloriesCounter"));
+
+                                g.setUser(user);
+                                DialogControl.hideDialog(pDialog);
+                                PrintProfileInfo();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        DialogControl.hideDialog(pDialog);
+        AppController.getInstance().addToRequestQueue(req);
+    }
+
+    private void CreateAndShowDialog() {
+        pDialog = new ProgressDialog(this);
+        DialogControl.configureNotCancellable(pDialog);
+        DialogControl.showDialog(pDialog);
+    }
 
 }

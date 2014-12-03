@@ -28,9 +28,7 @@ public class Registering extends Activity {
 
     private static String TAG = Registering.class.getSimpleName();
     private Button registerButton;
-    private EditText username;
-    private EditText mail;
-    private EditText password;
+    private EditText username, mail, password, password2;
     private ProgressDialog pDialog;
     private Globals g;
 
@@ -55,6 +53,12 @@ public class Registering extends Activity {
     }
 
     private void RegisterNewUser() {
+
+        if (!isPasswordTheSame()) {
+            Toast.makeText(getApplicationContext(), "Passwords don't match!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         DialogControl.showDialog(pDialog);
         String uri = String.format(g.getServerURL() + "/register?login=%1$s&password=%2$s&mailAddress=%3$s",
                 username.getText(), password.getText(), mail.getText());
@@ -105,15 +109,25 @@ public class Registering extends Activity {
         mail.setText("");
     }
 
+    public void ClearPassword2Text(View view) {
+        EditText password = (EditText) findViewById(R.id.registerPassword2);
+        password.setText("");
+    }
+
     private void SetControls() {
         registerButton = (Button) findViewById(R.id.registerButton);
         username = (EditText) findViewById(R.id.registerUsername);
         mail = (EditText) findViewById(R.id.registerEmail);
         password = (EditText) findViewById(R.id.registerPassword);
+        password2 = (EditText) findViewById(R.id.registerPassword2);
+    }
+
+    private boolean isPasswordTheSame() {
+        return password.getText().toString().equals(password2.getText().toString());
     }
 
     private void HandleUserRegisteringError() {
-        Toast.makeText(getApplicationContext(), "Error while registering a user", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Error or username already in use", Toast.LENGTH_LONG).show();
         DialogControl.hideDialog(pDialog);
     }
 

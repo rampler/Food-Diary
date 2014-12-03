@@ -24,12 +24,12 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/profile_name"
-                android:id="@+id/textView2" android:layout_column="0" android:layout_marginRight="60dp"
+                android:id="@+id/profile_nameEdit" android:layout_column="0" android:layout_marginRight="60dp"
                 android:layout_marginLeft="20dp"/>
         <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:inputType="textPersonName" android:id="@+id/profile_user_name"
                   android:ems="8"
-                  android:layout_column="2"/>
+                  android:layout_column="2" android:hint="First name"/>
     </TableRow>
 
     <TableRow
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="6"
-                android:id="@+id/profile_user_surname" android:layout_column="2"/>
+                android:id="@+id/profile_user_surname" android:layout_column="2" android:hint="Last name"/>
     </TableRow>
 
     <TableRow
@@ -57,14 +57,15 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/profile_weight"
-                android:id="@+id/textView4" android:layout_column="0" android:layout_marginLeft="20dp"
+                android:id="@+id/profile_surnameEdit" android:layout_column="0" android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"/>
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="3"
-                android:id="@+id/profile_user_weight" android:layout_column="2" android:layout_gravity="center_horizontal|left"/>
+                android:id="@+id/profile_user_weight" android:layout_column="2" android:layout_gravity="center_horizontal|left"
+                android:hint="Kg"/>
     </TableRow>
     <TableRow
             android:layout_width="fill_parent"
@@ -75,7 +76,7 @@
                       android:layout_gravity="center_vertical"/>
             <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:inputType="numberDecimal" android:ems="4" android:id="@+id/profile_user_calories"
-                      android:layout_gravity="center_horizontal|left" android:layout_column="2"/>
+                      android:layout_gravity="center_horizontal|left" android:layout_column="2" android:hint="Kcal"/>
 
     </TableRow>
     <TableRow
@@ -86,8 +87,8 @@
                   android:id="@+id/textView7" android:layout_column="0" android:layout_marginLeft="20dp"
                   android:layout_gravity="center_vertical" android:paddingRight="100dp"/>
         <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:inputType="numberDecimal" android:ems="2" android:id="@+id/profile_user_age"
-                  android:layout_gravity="center_horizontal|left" android:layout_column="2"/>
+                  android:inputType="numberDecimal" android:ems="3" android:id="@+id/profile_user_age"
+                  android:layout_gravity="center_horizontal|left" android:layout_column="2" android:hint="Age"/>
     </TableRow>
     <TableRow
             android:layout_width="fill_parent"

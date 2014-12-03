@@ -17,4 +17,9 @@ public class DialogControl {
             pDialog.dismiss();
     }
 
+    public static void configureNotCancellable(ProgressDialog pDialog) {
+        pDialog.setMessage("Please wait...");
+        pDialog.setCancelable(false);
+    }
+
 }

@@ -19,4 +19,11 @@
     <string name="profile_calories">Calories-a-day</string>
     <string name="profile_age">Age</string>
     <string name="create">Create</string>
+    <string name="showProfile_name">Name:   </string>
+    <string name="showProfile_surname">Surname:   </string>
+    <string name="profile_nameEdit">Medium Text</string>
+    <string name="profile_surnameEdit">Medium Text</string>
+    <string name="profile_weightEdit">Small text</string>
+    <string name="profile_ageEdit">Small text</string>
+    <string name="profile_caloriesEdit">Small text</string>
 </resources>

@@ -4,30 +4,34 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
     <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:inputType="textPersonName" android:text="@string/registerUsername" android:ems="10"
+              android:inputType="textPersonName" android:ems="10"
               android:id="@+id/registerUsername"
               android:layout_marginTop="141dp" android:editable="true" android:onClick="ClearUsernameText"
-              android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+              android:layout_alignParentTop="true" android:layout_centerHorizontal="true" android:hint="Your username"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/registerEmail" android:layout_below="@+id/registerUsername"
-            android:layout_centerHorizontal="true" android:text="@string/registerEmail"
-            android:onClick="ClearEmailText"/>
+            android:layout_centerHorizontal="true"
+            android:onClick="ClearEmailText" android:hint="Your email"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/registerPassword" android:layout_below="@+id/registerEmail"
-            android:layout_centerHorizontal="true" android:text="@string/registerPassword"
-            android:onClick="ClearRegisterPasswordText"/>
+            android:layout_centerHorizontal="true"
+            android:onClick="ClearRegisterPasswordText" android:hint="Password"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/registerButton"
-            android:id="@+id/registerButton" android:layout_below="@+id/registerPassword"
-            android:layout_centerHorizontal="true"/>
+            android:id="@+id/registerButton"
+            android:layout_below="@+id/registerPassword2" android:layout_centerHorizontal="true"/>
+    <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="textPassword"
+              android:ems="10" android:id="@+id/registerPassword2"
+              android:onClick="ClearPassword2Text" android:layout_below="@+id/registerPassword"
+              android:layout_centerHorizontal="true" android:hint="Repeat password"/>
 </RelativeLayout>
