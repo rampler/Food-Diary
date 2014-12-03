@@ -4,11 +4,11 @@ package pl.foodiary.common;
  * Created by Mateusz on 2014-12-03.
  */
 public class Counters {
-	private long products = 0;
+	private long products    = 0;
 	private long ingredients = 0;
-	private long meals = 0;
-	private long exercises = 0;
-	private long workouts = 0;
+	private long meals       = 0;
+	private long exercises   = 0;
+	private long workouts    = 0;
 
 	public Counters() {
 	}

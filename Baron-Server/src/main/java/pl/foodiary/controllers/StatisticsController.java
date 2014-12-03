@@ -59,13 +59,13 @@ public class StatisticsController {
 
 	@RequestMapping(value = "/counters", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public Counters getCounters(HttpServletRequest request, @RequestParam(value = "sessionId", required = false) UUID sessionId, @RequestParam(value = "date", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+	public Counters getCounters(HttpServletRequest request, @RequestParam(value = "sessionId", required = false) UUID sessionId, @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		if (sessionId != null) {
 			User user = sessionService.checkSession(sessionId, request.getRemoteAddr());
-			if(date != null) return statisticService.calculateUserCounters(user, date);
+			if (date != null) return statisticService.calculateUserCounters(user, date);
 			return statisticService.calculateUserCounters(user);
 		}
-		else if(date != null) return statisticService.calculateAllCounters(date);
+		else if (date != null) return statisticService.calculateAllCounters(date);
 		else return statisticService.calculateAllCounters();
 	}
 }
