@@ -59,9 +59,13 @@ public class CreatingUserProfile extends Activity {
     }
 
     private void CreateNewProfile() {
+
         DialogControl.showDialog(pDialog);
-        String uri = String.format("http://foodiary.ddns.net:8080/profile/new");
-        String uri2 = String.format("http://foodiary.ddns.net:8080/profile/new?sessionId=%1$s&firstName=%2$s&lastName=%3$s&weight=%4$s&caloriesCounter=%5$s&age=%6$s",
+
+
+
+
+        String uri2 = String.format(g.getServerURL() + "/profile/new?sessionId=%1$s&firstName=%2$s&lastName=%3$s&weight=%4$s&caloriesCounter=%5$s&age=%6$s",
                 g.getSessionId(),
                 firstname.getText().toString(),
                 surname.getText().toString(),
@@ -112,6 +116,8 @@ public class CreatingUserProfile extends Activity {
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 
+
+
     private void SetControls() {
         newProfileButton = (Button) findViewById(R.id.profile_create_button);
         firstname = (EditText) findViewById(R.id.profile_user_name);
@@ -133,5 +139,4 @@ public class CreatingUserProfile extends Activity {
         DialogControl.hideDialog(pDialog);
         Toast.makeText(getApplicationContext(), "Error creating a new profile", Toast.LENGTH_SHORT);
     }
-
 }

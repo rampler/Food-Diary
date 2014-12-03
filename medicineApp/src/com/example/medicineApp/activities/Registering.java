@@ -17,6 +17,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.medicineApp.helpers.AppController;
 import com.example.medicineApp.R;
 import com.example.medicineApp.helpers.DialogControl;
+import com.example.medicineApp.helpers.Globals;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,11 +32,13 @@ public class Registering extends Activity {
     private EditText mail;
     private EditText password;
     private ProgressDialog pDialog;
+    private Globals g;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+        g = Globals.getInstance();
         SetControls();
 
         pDialog = new ProgressDialog(this);
@@ -53,7 +56,8 @@ public class Registering extends Activity {
 
     private void RegisterNewUser() {
         DialogControl.showDialog(pDialog);
-        String uri = String.format("http://foodiary.ddns.net:8080/register?login=%1$s&password=%2$s&mailAddress=%3$s", username.getText(), password.getText(), mail.getText());
+        String uri = String.format(g.getServerURL() + "/register?login=%1$s&password=%2$s&mailAddress=%3$s",
+                username.getText(), password.getText(), mail.getText());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 uri, null, new Response.Listener<JSONObject>() {

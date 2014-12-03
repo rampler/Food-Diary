@@ -13,8 +13,13 @@ public class Globals {
     private static Globals instance = null;
     private List<Product> products = new ArrayList<Product>();
     private String sessionId = "";
+    private static final String ServerURL = "http://foodiary.herokuapp.com";
 
     private Globals(){}
+
+    public static String getServerURL() {
+        return ServerURL;
+    }
 
     public void addProduct(Product product) {
         products.add(product);

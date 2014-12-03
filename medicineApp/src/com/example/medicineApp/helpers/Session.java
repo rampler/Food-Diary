@@ -27,8 +27,10 @@ import java.io.IOException;
  */
 public class Session {
 
+    private static Globals g;
+
     public static boolean LogOut(UserProfile userProfile) throws IOException {
-        Globals g = Globals.getInstance();
+        g = Globals.getInstance();
         String sessionId = g.getSessionId();
         Context context = userProfile.getApplicationContext();
         //MakeLogoutRequest(sessionId, context);
@@ -61,7 +63,7 @@ public class Session {
 
     private static boolean LogOutWithHttpRequest(String sessionId, Context context) throws IOException {
         HttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(String.format("http://foodiary.ddns.net:8080/logout?sessionId=%1$s", sessionId));
+        HttpGet httpGet = new HttpGet(String.format(g.getServerURL() + "/logout?sessionId=%1$s", sessionId));
         HttpResponse response = httpclient.execute(httpGet);
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() == 200) {

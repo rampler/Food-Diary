@@ -6,11 +6,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.*;
-import com.example.medicineApp.helpers.AppController;
-import com.example.medicineApp.helpers.CustomListAdapter;
-import com.example.medicineApp.helpers.Globals;
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.medicineApp.helpers.*;
 import com.example.medicineApp.R;
-import com.example.medicineApp.helpers.Session;
 import com.example.medicineApp.objects.Product;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,11 +30,6 @@ import java.io.IOException;
 
 public class UserProfile extends Activity {
 
-    // json object response url
-    private String urlJsonObj = "http://api.androidhive.info/volley/person_object.json";
-
-    // json array response url
-    private String urlJsonArry = "http://foodiary.ddns.net:8080/product/list.json";
 
     private static String TAG = UserProfile.class.getSimpleName();
     private Button btnMakeObjectRequest, btnMakeArrayRequest;
@@ -98,10 +92,11 @@ public class UserProfile extends Activity {
             case R.id.action_add:
                 try {
                     if (Session.LogOut(this)) {
-                        Toast.makeText(getApplicationContext(), "User no longer logged in", Toast.LENGTH_SHORT);
+                        Toast.makeText(getApplicationContext(), "User no longer logged in", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, Logging.class);
                         startActivity(intent);
-                    };
+                        finish();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -112,7 +107,7 @@ public class UserProfile extends Activity {
 
     private void makeJsonArrayRequest() {
         showpDialog();
-
+        String urlJsonArry = g.getServerURL() + "/product/list.json";
         JsonArrayRequest req = new JsonArrayRequest(urlJsonArry,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -166,10 +161,6 @@ public class UserProfile extends Activity {
         AppController.getInstance().addToRequestQueue(req);
     }
 
-    private void CreateNewProfile() {
-        Intent intent = new Intent(getApplicationContext(), CreatingUserProfile.class);
-        startActivity(intent);
-    }
 
     private void showpDialog() {
         if (!pDialog.isShowing())
@@ -179,6 +170,37 @@ public class UserProfile extends Activity {
     private void hidepDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    private void CreateNewProfile() {
+        String uri = String.format(g.getServerURL() + "user/hasProfile?sessionId=%1$s", g.getSessionId());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                uri, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+                try {
+                    String result = response.getString("result");
+                    if (result.equals("false")) {
+                        Intent intent = new Intent(getApplicationContext(), CreatingUserProfile.class);
+                        startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast t = Toast.makeText(getApplicationContext(), "A profile already exists", Toast.LENGTH_SHORT);
+                t.show();
+            }
+        });
+        AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 
 

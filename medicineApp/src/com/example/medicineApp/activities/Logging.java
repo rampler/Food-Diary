@@ -58,7 +58,7 @@ public class Logging extends Activity {
     private void makeLoginRequest() {
 
         DialogControl.showDialog(pDialog);
-        String uri = String.format("http://foodiary.ddns.net:8080/login?login=%1$s&password=%2$s", userLogin.getText(), userPassword.getText());
+        String uri = String.format(g.getServerURL() + "/login?login=%1$s&password=%2$s", userLogin.getText(), userPassword.getText());
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
