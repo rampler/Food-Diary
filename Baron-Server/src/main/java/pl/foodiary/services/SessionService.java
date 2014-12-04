@@ -3,6 +3,7 @@ package pl.foodiary.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.foodiary.domain.Session;
 import pl.foodiary.domain.User;
@@ -26,6 +27,9 @@ public class SessionService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Value("${foodiary.session.erase.older.than}")
+	private final long eraseDeadline = 30 * 60 * 1000;
+
 	private final static Logger log = LoggerFactory.getLogger(SessionService.class);
 
 	/**
@@ -40,7 +44,7 @@ public class SessionService {
 			Session session = sessionRepository.findOne(sessionId);
 			String ipAddress = getIpAddress(request);
 
-			if ((session.getLastActivityDate().getTime() - System.currentTimeMillis()) / (1000 * 60) < 30 && session.getIpAddress().equals(ipAddress)) {
+			if ((session.getLastActivityDate().getTime() - System.currentTimeMillis()) < eraseDeadline && session.getIpAddress().equals(ipAddress)) {
 				session.setLastActivityDate(new Date());
 				sessionRepository.save(session);
 				return session.getUser();
