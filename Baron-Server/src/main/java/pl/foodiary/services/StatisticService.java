@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import pl.foodiary.common.ConsumptionReview;
 import pl.foodiary.common.Counters;
+import pl.foodiary.common.MainStatistics;
 import pl.foodiary.domain.Ingredient;
 import pl.foodiary.domain.Meal;
 import pl.foodiary.domain.Product;
@@ -38,6 +39,9 @@ public class StatisticService {
 
 	@Autowired
 	private WorkoutRepository workoutRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -162,5 +166,28 @@ public class StatisticService {
 		counters.setExercises(exercisesCounter);
 
 		return counters;
+	}
+
+	public MainStatistics calculateMainStatistics() {
+		MainStatistics mainStatistics = new MainStatistics();
+		mainStatistics.setUsersCounter(userRepository.count());
+
+		long unactiveUsers = jdbcTemplate.query("select count(id) from user_data where id not in (select user_id from profile)", new RowMapper<Long>() {
+			@Override
+			public Long mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getLong("count");
+			}
+		}).get(0);
+		mainStatistics.setUnactiveUsersCounter(unactiveUsers);
+
+		long onlineUsers = jdbcTemplate.query("select count(id) from session where last_activity_date > current_timestamp - INTERVAL '30 mins'", new RowMapper<Long>() {
+			@Override
+			public Long mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getLong("count");
+			}
+		}).get(0);
+		mainStatistics.setOnlineUsersCounter(onlineUsers);
+
+		return mainStatistics;
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.foodiary.common.ConsumptionReview;
 import pl.foodiary.common.Counters;
+import pl.foodiary.common.MainStatistics;
 import pl.foodiary.domain.Meal;
 import pl.foodiary.domain.User;
 import pl.foodiary.exceptions.BadRequestException;
@@ -67,5 +68,11 @@ public class StatisticsController {
 		}
 		else if (date != null) return statisticService.calculateAllCounters(date);
 		else return statisticService.calculateAllCounters();
+	}
+
+	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public MainStatistics mainStatistics() {
+		return statisticService.calculateMainStatistics();
 	}
 }
