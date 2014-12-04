@@ -22,7 +22,7 @@ public class MainController {
 	@RequestMapping("/")
 	@ResponseBody
 	String home() {
-		String version = "0.11.5";
+		String version = "0.12.1";
 		return "<style type=\"text/css\">\n" +
 				"table, td\n" +
 				"{\n" +

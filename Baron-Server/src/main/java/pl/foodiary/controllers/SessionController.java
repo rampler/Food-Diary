@@ -39,6 +39,7 @@ public class SessionController {
 	@ResponseBody
 	public String login(HttpServletRequest request, @RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
+			login = login.toLowerCase();
 			User user = userRepository.findOneByLogin(login);
 			if (user.getPassword().equals(password)) {
 				Session session = new Session(UUID.randomUUID(), userRepository.findOneByLogin(login), new Date(), sessionService.getIpAddress(request));
