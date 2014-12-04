@@ -1,5 +1,7 @@
 package pl.foodiary.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,8 @@ public class MealController {
 	@Autowired
 	private SessionService sessionService;
 
+	private final static Logger log = LoggerFactory.getLogger(MealController.class);
+
 	//API 2.0
 	@RequestMapping(value = "/getList", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
@@ -54,7 +58,7 @@ public class MealController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -76,7 +80,7 @@ public class MealController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -96,7 +100,7 @@ public class MealController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -124,7 +128,7 @@ public class MealController {
 			return "{\"id\":\"" + meal.getId() + "\"}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -141,7 +145,7 @@ public class MealController {
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -154,7 +158,7 @@ public class MealController {
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}

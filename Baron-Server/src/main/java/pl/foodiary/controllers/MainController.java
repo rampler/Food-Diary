@@ -4,6 +4,8 @@ package pl.foodiary.controllers;
  * Created by Mateusz on 2014-11-27.
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +16,8 @@ import java.util.Date;
 
 @Controller
 public class MainController {
+
+	private final static Logger log = LoggerFactory.getLogger(MainController.class);
 
 	@RequestMapping("/")
 	@ResponseBody

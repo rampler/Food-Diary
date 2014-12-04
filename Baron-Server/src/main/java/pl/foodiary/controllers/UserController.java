@@ -1,5 +1,7 @@
 package pl.foodiary.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,8 @@ public class UserController {
 	@Autowired
 	private SessionService sessionService;
 
+	private final static Logger log = LoggerFactory.getLogger(UserController.class);
+
 	//API 2.0
 	@RequestMapping(value = "/erase", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
@@ -50,7 +54,7 @@ public class UserController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -65,7 +69,7 @@ public class UserController {
 			return "{\"id\":\"" + user.getId() + "\"}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -93,7 +97,7 @@ public class UserController {
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -106,7 +110,7 @@ public class UserController {
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}

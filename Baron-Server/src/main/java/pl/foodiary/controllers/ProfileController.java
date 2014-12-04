@@ -1,5 +1,7 @@
 package pl.foodiary.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,8 @@ public class ProfileController {
 	@Autowired
 	private SessionService sessionService;
 
+	private final static Logger log = LoggerFactory.getLogger(ProfileController.class);
+
 	//API 2.0
 
 	@RequestMapping(value = "/get", method = {RequestMethod.GET, RequestMethod.POST})
@@ -50,7 +54,7 @@ public class ProfileController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -71,7 +75,7 @@ public class ProfileController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -86,7 +90,7 @@ public class ProfileController {
 			return "{\"id\":\"" + profile.getId() + "\"}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -100,7 +104,7 @@ public class ProfileController {
 			else return "{\"result\":false}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -126,7 +130,7 @@ public class ProfileController {
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -139,7 +143,7 @@ public class ProfileController {
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}

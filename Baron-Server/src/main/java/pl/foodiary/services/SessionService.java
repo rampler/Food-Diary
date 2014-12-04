@@ -1,5 +1,7 @@
 package pl.foodiary.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.foodiary.domain.Session;
@@ -24,6 +26,8 @@ public class SessionService {
 	@Autowired
 	private UserRepository userRepository;
 
+	private final static Logger log = LoggerFactory.getLogger(SessionService.class);
+
 	/**
 	 * Method checks is session is still active.
 	 *
@@ -47,7 +51,7 @@ public class SessionService {
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			throw new NotAuthorizedException();
 		}
 	}

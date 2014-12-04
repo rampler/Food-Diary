@@ -1,5 +1,7 @@
 package pl.foodiary.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,8 @@ public class WorkoutController {
 	@Autowired
 	private SessionService sessionService;
 
+	private final static Logger log = LoggerFactory.getLogger(WorkoutController.class);
+
 	@RequestMapping(value = "/setDone", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String setDone(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam("id") UUID id, @RequestParam("done") Boolean done) {
@@ -49,7 +53,7 @@ public class WorkoutController {
 		}
 		catch (NotAuthorizedException ex) {throw ex;}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -65,7 +69,7 @@ public class WorkoutController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return null;
 		}
 	}
@@ -89,7 +93,7 @@ public class WorkoutController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -109,7 +113,7 @@ public class WorkoutController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}

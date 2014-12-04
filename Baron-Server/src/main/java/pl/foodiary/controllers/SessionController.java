@@ -1,5 +1,7 @@
 package pl.foodiary.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,8 @@ public class SessionController {
 	@Autowired
 	private SessionService sessionService;
 
+	private final static Logger log = LoggerFactory.getLogger(SessionController.class);
+
 	@RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String login(HttpServletRequest request, @RequestParam("login") String login, @RequestParam("password") String password) {
@@ -45,7 +49,7 @@ public class SessionController {
 		}
 		catch (NotAuthorizedException ex) { throw ex; }
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			throw new NotAuthorizedException(login);
 		}
 	}
@@ -59,7 +63,7 @@ public class SessionController {
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}

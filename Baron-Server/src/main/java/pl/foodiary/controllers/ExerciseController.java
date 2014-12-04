@@ -1,5 +1,7 @@
 package pl.foodiary.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ public class ExerciseController {
 
 	@Autowired
 	private ExerciseRepository exerciseRepository;
+
+	private final static Logger log = LoggerFactory.getLogger(ExerciseController.class);
 
 	@RequestMapping(value = "/get", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
@@ -50,7 +54,7 @@ public class ExerciseController {
 			return "{\"result\":true}";
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			return "{\"result\":false}";
 		}
 	}
@@ -66,7 +70,7 @@ public class ExerciseController {
 //			return "{\"result\":true}";
 //		}
 //		catch (Exception e) {
-//			System.out.println(e.getMessage());
+//			log.error(e.getMessage());
 //			return "{\"result\":false}";
 //		}
 //	}
