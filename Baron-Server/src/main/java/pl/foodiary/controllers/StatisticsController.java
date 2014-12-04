@@ -1,5 +1,7 @@
 package pl.foodiary.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,8 @@ public class StatisticsController {
 	@Autowired
 	private StatisticService statisticService;
 
+	private final static Logger log = LoggerFactory.getLogger(StatisticsController.class);
+
 	@RequestMapping(value = "/macronutrients", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public ConsumptionReview getConsumptionReview(HttpServletRequest request, @RequestParam("sessionId") UUID sessionId, @RequestParam(value = "consumptionDay", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date consumptionDay, @RequestParam(value = "mealId", required = false) UUID mealId) {
@@ -70,7 +74,7 @@ public class StatisticsController {
 		else return statisticService.calculateAllCounters();
 	}
 
-	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/main", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public MainStatistics mainStatistics() {
 		return statisticService.calculateMainStatistics();

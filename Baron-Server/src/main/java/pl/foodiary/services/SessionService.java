@@ -32,7 +32,7 @@ public class SessionService {
 	 * Method checks is session is still active.
 	 *
 	 * @param sessionId - Session ID
-	 * @param request - HttpServletRequest
+	 * @param request   - HttpServletRequest
 	 * @return User / Code 403
 	 */
 	public User checkSession(UUID sessionId, HttpServletRequest request) {

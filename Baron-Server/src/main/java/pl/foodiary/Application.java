@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.File;
 import java.util.Scanner;
@@ -16,6 +17,7 @@ import java.util.Scanner;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
+@EnableScheduling
 public class Application {
 
 	public static String mainAPI  = "";

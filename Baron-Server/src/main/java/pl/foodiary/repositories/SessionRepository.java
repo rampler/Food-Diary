@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.foodiary.domain.Session;
 import pl.foodiary.domain.User;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -13,4 +14,5 @@ import java.util.UUID;
 @Repository
 public interface SessionRepository extends PagingAndSortingRepository<Session, UUID> {
 	Iterable<Session> findByUser(User user);
+	void deleteByLastActivityDateLessThan(Date date);
 }

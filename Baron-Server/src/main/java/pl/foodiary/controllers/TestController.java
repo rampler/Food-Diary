@@ -12,7 +12,6 @@ import pl.foodiary.repositories.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
