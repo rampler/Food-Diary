@@ -190,7 +190,8 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
     }
 
     private void PrintProfileInfo() {
-        TextView text = (TextView) findViewById(R.id.profile_nameEdit);
+        TextView text;
+        text = (TextView) findViewById(R.id.profile_nameEdit);
         text.setText(g.getUser().getFirstName());
         text = (TextView) findViewById(R.id.profile_surnameEdit);
         text.setText(g.getUser().getLastName());
@@ -259,11 +260,13 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
         if (tab.getPosition() == 1) {
             ListView lv = (ListView) findViewById(android.R.id.list);
             lv.setAdapter(new CustomListAdapter(getApplicationContext(), g.getMeals()));
+            viewPager.setCurrentItem(tab.getPosition());
         } else if (tab.getPosition() == 0 && g.getUser() != null) {
+            viewPager.setCurrentItem(tab.getPosition());
             PrintProfileInfo();
+        } else if (tab.getPosition() == 2) {
+            viewPager.setCurrentItem(tab.getPosition());
         }
-        viewPager.setCurrentItem(tab.getPosition());
-
     }
 
     @Override
