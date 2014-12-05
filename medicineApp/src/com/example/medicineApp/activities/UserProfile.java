@@ -52,7 +52,7 @@ public class UserProfile extends Activity {
         g = Globals.getInstance();
 
         if (!g.isHasProfile()) CreateNewProfile();
-        GetUserProfile();
+        else GetUserProfile();
 
 
 

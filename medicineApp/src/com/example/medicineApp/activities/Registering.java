@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +19,14 @@ import com.example.medicineApp.helpers.AppController;
 import com.example.medicineApp.R;
 import com.example.medicineApp.helpers.DialogControl;
 import com.example.medicineApp.helpers.Globals;
+import com.example.medicineApp.helpers.Validator;
+import com.example.medicineApp.utils.Password;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Sabina on 2014-11-30.
@@ -54,14 +61,13 @@ public class Registering extends Activity {
 
     private void RegisterNewUser() {
 
-        if (!isPasswordTheSame()) {
-            Toast.makeText(getApplicationContext(), "Passwords don't match!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if (AnyErrors()) return;
+        String hash = Password.HashPassword(password.getText());
+
 
         DialogControl.showDialog(pDialog);
         String uri = String.format(g.getServerURL() + "/register?login=%1$s&password=%2$s&mailAddress=%3$s",
-                username.getText(), password.getText(), mail.getText());
+                username.getText(), hash, mail.getText());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 uri, null, new Response.Listener<JSONObject>() {
@@ -94,25 +100,6 @@ public class Registering extends Activity {
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 
-    public void ClearUsernameText(View view) {
-        EditText userId = (EditText) findViewById(R.id.registerUsername);
-        userId.setText("");
-    }
-
-    public void ClearRegisterPasswordText(View view) {
-        EditText password = (EditText) findViewById(R.id.registerPassword);
-        password.setText("");
-    }
-
-    public void ClearEmailText(View view) {
-        EditText mail = (EditText) findViewById(R.id.registerEmail);
-        mail.setText("");
-    }
-
-    public void ClearPassword2Text(View view) {
-        EditText password = (EditText) findViewById(R.id.registerPassword2);
-        password.setText("");
-    }
 
     private void SetControls() {
         registerButton = (Button) findViewById(R.id.registerButton);
@@ -122,9 +109,32 @@ public class Registering extends Activity {
         password2 = (EditText) findViewById(R.id.registerPassword2);
     }
 
-    private boolean isPasswordTheSame() {
-        return password.getText().toString().equals(password2.getText().toString());
+    private boolean AnythingEmpty() {
+        return (Validator.isEmpty(username.getText())
+                || Validator.isEmpty(mail.getText())
+                || Validator.isEmpty(password.getText())
+                || Validator.isEmpty(password2.getText()));
     }
+
+    private boolean AnyErrors() {
+        if (AnythingEmpty()) {
+            Toast.makeText(getApplicationContext(), "Fields cannot be empty!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        if (!Validator.isEqual(password.getText(), password2.getText())) {
+            Toast.makeText(getApplicationContext(), "Passwords don't match!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        if (!Validator.isCorrectEmail(mail.getText())) {
+            Toast.makeText(getApplicationContext(), "Email is not right!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
+
 
     private void HandleUserRegisteringError() {
         Toast.makeText(getApplicationContext(), "Error or username already in use", Toast.LENGTH_LONG).show();

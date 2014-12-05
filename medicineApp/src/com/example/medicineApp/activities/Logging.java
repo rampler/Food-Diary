@@ -18,6 +18,8 @@ import com.example.medicineApp.helpers.AppController;
 import com.example.medicineApp.helpers.DialogControl;
 import com.example.medicineApp.helpers.Globals;
 import com.example.medicineApp.R;
+import com.example.medicineApp.helpers.Validator;
+import com.example.medicineApp.utils.Password;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,8 +59,15 @@ public class Logging extends Activity {
 
     private void makeLoginRequest() {
 
+        if (Validator.isEmpty(userLogin.getText()) || Validator.isEmpty(userPassword.getText()))  {
+            Toast.makeText(getApplicationContext(), "Is anything empty?", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String hash = Password.HashPassword(userPassword.getText());
+
         DialogControl.showDialog(pDialog);
-        String uri = String.format(g.getServerURL() + "/login?login=%1$s&password=%2$s", userLogin.getText(), userPassword.getText());
+        String uri = String.format(g.getServerURL() + "/login?login=%1$s&password=%2$s", userLogin.getText(), hash);
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
@@ -91,16 +100,6 @@ public class Logging extends Activity {
     }
 
 
-    public void ClearIdText(View view) {
-        EditText userId = (EditText) findViewById(R.id.userIdEdit);
-        userId.setText("");
-    }
-
-    public void ClearPasswordText(View view) {
-        EditText password = (EditText) findViewById(R.id.passwordEdit);
-        password.setText("");
-    }
-
     public void Register(View view) {
         Intent intent = new Intent(getApplicationContext(), Registering.class);
         startActivity(intent);
@@ -131,7 +130,7 @@ public class Logging extends Activity {
                         g.setHasProfile(true);
                     } else g.setHasProfile(false);
                     DialogControl.hideDialog(pDialog);
-                    Toast.makeText(getApplicationContext(), "User logged in", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "User logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), UserProfile.class);
                     startActivity(intent);
                     finish();

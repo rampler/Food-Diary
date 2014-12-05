@@ -26,4 +26,5 @@
     <string name="profile_weightEdit">Small text</string>
     <string name="profile_ageEdit">Small text</string>
     <string name="profile_caloriesEdit">Small text</string>
+    <string name="profile">Your profile</string>
 </resources>
