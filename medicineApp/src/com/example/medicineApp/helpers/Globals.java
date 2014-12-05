@@ -1,9 +1,12 @@
 package com.example.medicineApp.helpers;
 
+import com.example.medicineApp.objects.Meal;
 import com.example.medicineApp.objects.Product;
 import com.example.medicineApp.objects.User;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,7 +15,7 @@ import java.util.List;
 public class Globals {
 
     private static Globals instance = null;
-    private List<Product> products = new ArrayList<Product>();
+    private List<Meal> meals = Collections.emptyList();
     private String sessionId = "";
     private static final String ServerURL = "http://foodiary.herokuapp.com";
     private boolean hasProfile = false;
@@ -24,12 +27,12 @@ public class Globals {
         return ServerURL;
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
+    public void addMeal(Meal meal) {
+         meals.add(meal);
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Meal> getMeals() {
+        return meals;
     }
 
     public static synchronized Globals getInstance(){
@@ -39,8 +42,8 @@ public class Globals {
         return instance;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setMeals(List<Meal> meals) {
+        this. meals = meals;
     }
 
     public String getSessionId() {

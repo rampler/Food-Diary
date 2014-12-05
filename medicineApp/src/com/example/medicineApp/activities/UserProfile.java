@@ -1,24 +1,26 @@
 package com.example.medicineApp.activities;
 
-import android.app.Dialog;
+import android.app.*;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.*;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.medicineApp.adapter.TabsPagerAdapter;
 import com.example.medicineApp.helpers.*;
 import com.example.medicineApp.R;
+import com.example.medicineApp.objects.Meal;
 import com.example.medicineApp.objects.Product;
 import com.example.medicineApp.objects.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -28,21 +30,28 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class UserProfile extends Activity {
+public class UserProfile extends FragmentActivity implements ActionBar.TabListener {
 
 
     private static String TAG = UserProfile.class.getSimpleName();
 
     private ProgressDialog pDialog;
 
-    private ListView productListView;
+    private ListView mealListView;
     private CustomListAdapter listAdapter;
     private Globals g;
 
+    private ViewPager viewPager;
+    private TabsPagerAdapter mAdapter;
+    private ActionBar actionBar;
+    // Tab titles
+    private String[] tabs = { "Profile", "Meals", "Trainings" };
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_act);
 
@@ -52,28 +61,50 @@ public class UserProfile extends Activity {
         g = Globals.getInstance();
 
         if (!g.isHasProfile()) CreateNewProfile();
-        else GetUserProfile();
+        else {
+
+            GetUserProfile();
+            GetUserMeals();
+
+            viewPager = (ViewPager) findViewById(R.id.pager);
+            actionBar = getActionBar();
+            mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+
+            viewPager.setAdapter(mAdapter);
+            actionBar.setHomeButtonEnabled(false);
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+            for (String tab_name : tabs) {
+                actionBar.addTab(actionBar.newTab().setText(tab_name)
+                        .setTabListener(this));
+            }
+
+
+        }
 
 
 
-        /*btnMakeArrayRequest = (Button) findViewById(R.id.download_products);
-        createNewProfile = (Button) findViewById(R.id.createProfileButton);
-
-        productListView = (ListView) findViewById(R.id.productListView);
-        listAdapter = new CustomListAdapter(this, g.getProducts());
-        productListView.setAdapter(listAdapter);
-
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(false);
-
-        btnMakeArrayRequest.setOnClickListener(new View.OnClickListener() {
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onClick(View v) {
-                makeJsonArrayRequest();
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    ListView lv = (ListView) findViewById(android.R.id.list);
+                    lv.setAdapter(new CustomListAdapter(getApplicationContext(), g.getMeals()));
+                } else if (position == 0 && g.getUser() != null) {
+                    PrintProfileInfo();
+                }
+                actionBar.setSelectedNavigationItem(position);
             }
-        });*/
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
     }
 
     @Override
@@ -103,9 +134,10 @@ public class UserProfile extends Activity {
         }
     }
 
-    /*private void makeJsonArrayRequest() {
-        String urlJsonArry = g.getServerURL() + "/product/list.json";
-        JsonArrayRequest req = new JsonArrayRequest(urlJsonArry,
+    private void GetUserMeals() {
+        String uri = String.format(g.getServerURL() + "/meal/getList?sessionId=%1$s", g.getSessionId());
+
+        JsonArrayRequest req = new JsonArrayRequest(uri,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -114,21 +146,18 @@ public class UserProfile extends Activity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
 
-                                JSONObject product = (JSONObject) response
+                                JSONObject meal = (JSONObject) response
                                         .get(i);
 
-                                String id = product.getString("id");
-                                String name = product.getString("name");
-                                String calories = product.getString("calories");
-                                String carbs = product.getString("carbs");
-                                String protein = product.getString("protein");
-                                String fat = product.getString("fat");
-                                String type = product.getString("category");
+                                String id = meal.getString("id");
+                                String name  = meal.getString("name");
+                                String consumptionDay = meal.getString("consumptionDay");
 
-                                Product productObject = new Product(id, name, calories, carbs, protein, fat, type);
-                                if (!g.getProducts().contains(productObject)) {
-                                    g.addProduct(productObject);
+                                if (g.getMeals().isEmpty()) {
+                                    g.setMeals(new ArrayList<Meal>());
                                 }
+
+                                g.addMeal(new Meal(id, name, consumptionDay));
                             }
 
 
@@ -139,8 +168,6 @@ public class UserProfile extends Activity {
                                     Toast.LENGTH_LONG).show();
                         }
 
-                        productListView = (ListView) findViewById(R.id.productListView);
-                        productListView.setAdapter(listAdapter);
 
                     }
                 }, new Response.ErrorListener() {
@@ -154,7 +181,7 @@ public class UserProfile extends Activity {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(req);
-    }*/
+    }
 
     private void CreateNewProfile() {
         Intent intent = new Intent(getApplicationContext(), CreatingUserProfile.class);
@@ -226,5 +253,29 @@ public class UserProfile extends Activity {
         DialogControl.configureNotCancellable(pDialog);
         DialogControl.showDialog(pDialog);
     }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        if (tab.getPosition() == 1) {
+            ListView lv = (ListView) findViewById(android.R.id.list);
+            lv.setAdapter(new CustomListAdapter(getApplicationContext(), g.getMeals()));
+        } else if (tab.getPosition() == 0 && g.getUser() != null) {
+            PrintProfileInfo();
+        }
+        viewPager.setCurrentItem(tab.getPosition());
+
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        if (tab.getPosition() == 0) {
+            PrintProfileInfo();
+        }
+    }
+
 
 }
