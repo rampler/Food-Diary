@@ -110,6 +110,9 @@ public class Workout {
 		this.done = done;
 	}
 
+	@JsonProperty("exercise")
+	public UUID getExerciseId() { return exercise.getId(); }
+
 	@JsonProperty("user")
 	public UUID getUserId() {
 		return user.getId();
