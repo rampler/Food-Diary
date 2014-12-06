@@ -1,5 +1,6 @@
 package pl.foodiary.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -102,5 +103,10 @@ public class Product {
 
 	public void setCategory(ProductCategory category) {
 		this.category = category;
+	}
+
+	@JsonProperty("category")
+	public String getCategoryName() {
+		return category.getName();
 	}
 }

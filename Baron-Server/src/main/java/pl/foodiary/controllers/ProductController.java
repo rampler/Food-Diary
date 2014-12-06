@@ -12,6 +12,8 @@ import pl.foodiary.domain.Product;
 import pl.foodiary.domain.ProductCategory;
 import pl.foodiary.repositories.ProductRepository;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -37,22 +39,26 @@ public class ProductController {
 	@RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Iterable<Product> listAllProducts(@RequestParam(value = "category", required = false) String category) {
-		if (category != null) return productRepository.findByCategory(ProductCategory.valueOf(category));
+		if (category != null) return productRepository.findByCategory(ProductCategory.getProductCategoryFromName(category));
 		else return productRepository.findAll();
 	}
 
 	@RequestMapping(value = "/create", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 	@ResponseBody
 	public String createProduct(@RequestParam("name") String name, @RequestParam("calories") Double calories, @RequestParam("fat") Double fat, @RequestParam("carbs") Double carbs, @RequestParam("protein") Double protein, @RequestParam("category") String category) {
-		Product product = new Product(UUID.randomUUID(), name, calories, carbs, protein, fat, ProductCategory.valueOf(category));
+		Product product = new Product(UUID.randomUUID(), name, calories, carbs, protein, fat, ProductCategory.getProductCategoryFromName(category));
 		productRepository.save(product);
 		return "{\"id\":\"" + product.getId() + "\"}";
 	}
 
 	@RequestMapping(value = "/categories", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public ProductCategory[] getProductCategories() {
-		return ProductCategory.values();
+	public List<String> getProductCategories() {
+		List<String> list = new LinkedList<>();
+		for(ProductCategory productCategory : ProductCategory.values()) {
+			list.add(productCategory.getName());
+		}
+		return list;
 	}
 
 	@RequestMapping(value = "/update", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
@@ -65,7 +71,7 @@ public class ProductController {
 			if (carbs != null) product.setCarbs(carbs);
 			if (protein != null) product.setProtein(fat);
 			if (fat != null) product.setFat(fat);
-			if (category != null) product.setCategory(ProductCategory.valueOf(category));
+			if (category != null) product.setCategory(ProductCategory.getProductCategoryFromName(category));
 			productRepository.save(product);
 			return "{\"result\":true}";
 		}
