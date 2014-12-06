@@ -11,11 +11,11 @@ import android.view.MenuItem;
 import android.widget.*;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.medicineApp.adapter.MealListAdapter;
 import com.example.medicineApp.adapter.TabsPagerAdapter;
 import com.example.medicineApp.helpers.*;
 import com.example.medicineApp.R;
 import com.example.medicineApp.objects.Meal;
-import com.example.medicineApp.objects.Product;
 import com.example.medicineApp.objects.User;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +40,7 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
     private ProgressDialog pDialog;
 
     private ListView mealListView;
-    private CustomListAdapter listAdapter;
+    private MealListAdapter listAdapter;
     private Globals g;
 
     private ViewPager viewPager;
@@ -90,9 +90,9 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
             public void onPageSelected(int position) {
                 if (position == 1) {
                     ListView lv = (ListView) findViewById(android.R.id.list);
-                    lv.setAdapter(new CustomListAdapter(getApplicationContext(), g.getMeals()));
+                    lv.setAdapter(new MealListAdapter(getApplicationContext(), g.getMeals()));
                 } else if (position == 0 && g.getUser() != null) {
-                    PrintProfileInfo();
+
                 }
                 actionBar.setSelectedNavigationItem(position);
             }
@@ -259,11 +259,10 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         if (tab.getPosition() == 1) {
             ListView lv = (ListView) findViewById(android.R.id.list);
-            lv.setAdapter(new CustomListAdapter(getApplicationContext(), g.getMeals()));
+            lv.setAdapter(new MealListAdapter(getApplicationContext(), g.getMeals()));
             viewPager.setCurrentItem(tab.getPosition());
         } else if (tab.getPosition() == 0 && g.getUser() != null) {
             viewPager.setCurrentItem(tab.getPosition());
-            PrintProfileInfo();
         } else if (tab.getPosition() == 2) {
             viewPager.setCurrentItem(tab.getPosition());
         }
@@ -275,9 +274,7 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        if (tab.getPosition() == 0) {
-            PrintProfileInfo();
-        }
+
     }
 
 

@@ -3,6 +3,7 @@ package com.example.medicineApp.helpers;
 import com.example.medicineApp.objects.Meal;
 import com.example.medicineApp.objects.Product;
 import com.example.medicineApp.objects.User;
+import com.example.medicineApp.objects.Workout;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +17,7 @@ public class Globals {
 
     private static Globals instance = null;
     private List<Meal> meals = Collections.emptyList();
+    private List<Workout> workouts = Collections.emptyList();
     private String sessionId = "";
     private static final String ServerURL = "http://foodiary.herokuapp.com";
     private boolean hasProfile = false;
@@ -68,5 +70,17 @@ public class Globals {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Workout> getWorkouts() {
+        return workouts;
+    }
+
+    public void setWorkouts(List<Workout> workouts) {
+        this.workouts = workouts;
+    }
+
+    public void addWorkout(Workout workout) {
+        workouts.add(workout);
     }
 }

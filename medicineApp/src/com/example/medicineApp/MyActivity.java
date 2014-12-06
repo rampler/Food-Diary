@@ -7,13 +7,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.example.medicineApp.helpers.CustomListAdapter;
+import com.example.medicineApp.adapter.MealListAdapter;
 import com.example.medicineApp.helpers.Globals;
 
 public class MyActivity extends Activity {
 
     public final static String EXTRA_MESSAGE = "com.example.medicineApp.MESSAGE";
-    CustomListAdapter listAdapter;
+    MealListAdapter listAdapter;
     ListView listView;
     Globals g;
 

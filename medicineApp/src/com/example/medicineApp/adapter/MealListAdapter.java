@@ -1,4 +1,4 @@
-package com.example.medicineApp.helpers;
+package com.example.medicineApp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,12 +16,12 @@ import java.util.List;
 /**
  * Created by Sabina on 2014-11-21.
  */
-public class CustomListAdapter extends BaseAdapter {
+public class MealListAdapter extends BaseAdapter {
 
     private Context context;
     private List<Meal> meals;
 
-    public CustomListAdapter(Context context, List<Meal> meals) {
+    public MealListAdapter(Context context, List<Meal> meals) {
         this.context = context;
         this.meals = meals;
     }
