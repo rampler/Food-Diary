@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Mateusz on 2014-11-27.
  */
 public enum ProductCategory {
-	MEAT("Mięso"), MILK("Nabiał"), VEGETABLE("Warzywa");
+	MEAT("Mięso"), MILK("Nabiał"), VEGETABLE("Warzywa"), FISH("Ryby");
 
 	private String name;
 
