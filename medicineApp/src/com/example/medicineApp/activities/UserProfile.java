@@ -103,6 +103,9 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
                     lv.setAdapter(new MealListAdapter(getApplicationContext(), g.getMeals()));
                 } else if (position == 0 && g.getUser() != null) {
 
+                } else if (position == 2) {
+                    ListView lv = (ListView) findViewById(R.id.workoutList);
+                    lv.setAdapter(new WorkoutListAdapter(getApplicationContext(), g.getWorkouts()));
                 }
                 actionBar.setSelectedNavigationItem(position);
             }
