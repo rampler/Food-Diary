@@ -13,10 +13,13 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.medicineApp.adapter.MealListAdapter;
 import com.example.medicineApp.adapter.TabsPagerAdapter;
+import com.example.medicineApp.adapter.WorkoutListAdapter;
 import com.example.medicineApp.helpers.*;
 import com.example.medicineApp.R;
+import com.example.medicineApp.objects.Exercise;
 import com.example.medicineApp.objects.Meal;
 import com.example.medicineApp.objects.User;
+import com.example.medicineApp.objects.Workout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +41,7 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
     private static String TAG = UserProfile.class.getSimpleName();
 
     private ProgressDialog pDialog;
+    private ProgressDialog workoutsDialog;
 
     private ListView mealListView;
     private MealListAdapter listAdapter;
@@ -63,8 +67,14 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
         if (!g.isHasProfile()) CreateNewProfile();
         else {
 
+
+
+            workoutsDialog = new ProgressDialog(this);
+            DialogControl.configureNotCancellable(workoutsDialog);
+            DialogControl.showDialog(workoutsDialog);
             GetUserProfile();
             GetUserMeals();
+            GetWorkouts();
 
             viewPager = (ViewPager) findViewById(R.id.pager);
             actionBar = getActionBar();
@@ -123,6 +133,7 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
                     if (Session.LogOut(this)) {
                         Toast.makeText(getApplicationContext(), "User no longer logged in", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, Logging.class);
+                        g.clear();
                         startActivity(intent);
                         finish();
                     }
@@ -264,6 +275,8 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
         } else if (tab.getPosition() == 0 && g.getUser() != null) {
             viewPager.setCurrentItem(tab.getPosition());
         } else if (tab.getPosition() == 2) {
+            ListView lv = (ListView) findViewById(R.id.workoutList);
+            lv.setAdapter(new WorkoutListAdapter(getApplicationContext(), g.getWorkouts()));
             viewPager.setCurrentItem(tab.getPosition());
         }
     }
@@ -277,5 +290,97 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
 
     }
 
+    private void GetWorkouts() {
+        String uri = String.format(g.getServerURL() + "/workout/getList?sessionId=%1$s", g.getSessionId());
 
+        JsonArrayRequest req = new JsonArrayRequest(uri,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+
+                                JSONObject workout = (JSONObject) response
+                                        .get(i);
+
+                                String id = workout.getString("id");
+                                String excerciseId = workout.getString("exercise");
+                                String repeats = workout.getString("repeats");
+                                String quantity = workout.getString("quantity");
+                                String workoutDate = workout.getString("workoutDate");
+
+                                if (g.getWorkouts().isEmpty()) {
+                                    g.setWorkouts(new ArrayList<Workout>());
+                                }
+
+                                Workout workoutObj = new Workout(id, excerciseId, repeats, quantity, workoutDate);
+                                g.addWorkout(workoutObj);
+                                getWorkoutDetails(workoutObj);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                        DialogControl.hideDialog(workoutsDialog);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                DialogControl.hideDialog(workoutsDialog);
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(req);
+    }
+
+
+    public void getWorkoutDetails(final Workout workout) {
+        String uri = String.format(g.getServerURL() + "/exercise/get?id=%1$s", workout.getExerciseId());
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, uri, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+
+                                Exercise exercise = new Exercise(response.getString("id"),
+                                        response.getString("name"),
+                                        response.getString("unit"));
+
+                                workout.setExercise(exercise);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        DialogControl.hideDialog(pDialog);
+        AppController.getInstance().addToRequestQueue(req);
+    }
 }

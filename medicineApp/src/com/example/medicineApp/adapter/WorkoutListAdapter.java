@@ -41,6 +41,12 @@ public class WorkoutListAdapter extends BaseAdapter {
         }
 
         final Workout workout = getItem(position);
+        TextView name = (TextView) convertView.findViewById(R.id.workout_name);
+        TextView date = (TextView) convertView.findViewById(R.id.workout_date);
+        TextView repeats = (TextView) convertView.findViewById(R.id.workout_quantity);
+        name.setText(workout.getExercise().getName());
+        date.setText(workout.getWorkoutDate());
+        repeats.setText(workout.getRepeats() + "  (" + workout.getExercise().getUnit() + ")");
 
         return convertView;
     }

@@ -83,4 +83,11 @@ public class Globals {
     public void addWorkout(Workout workout) {
         workouts.add(workout);
     }
+
+    public void clear() {
+        meals = Collections.emptyList();
+        workouts = Collections.emptyList();
+        sessionId = "";
+        user = null;
+    }
 }

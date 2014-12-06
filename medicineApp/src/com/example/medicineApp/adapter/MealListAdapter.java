@@ -43,8 +43,8 @@ public class MealListAdapter extends BaseAdapter {
         TextView name = (TextView) convertView.findViewById(R.id.meal_name);
         TextView date = (TextView) convertView.findViewById(R.id.meal_date);
 
-        name.setText("Name: " + meal.getName());
-        date.setText("Consumption Day: " + meal.getConsumptionDay());
+        name.setText(meal.getName());
+        date.setText(meal.getConsumptionDay());
 
         return convertView;
     }
