@@ -64,7 +64,7 @@ public class UserController {
 	@ResponseBody
 	public String addUser(@RequestParam("login") String login, @RequestParam("password") String password) {
 		try {
-			User user = new User(UUID.randomUUID(), login.toLowerCase(), password, "");
+			User user = new User(UUID.randomUUID(), login.toLowerCase(), password.toLowerCase(), "");
 			userRepository.save(user);
 			return "{\"id\":\"" + user.getId() + "\"}";
 		}
@@ -92,7 +92,7 @@ public class UserController {
 		try {
 			User user = userRepository.findOne(id);
 			if (login != null) user.setLogin(login.toLowerCase());
-			if (password != null) user.setPassword(password);
+			if (password != null) user.setPassword(password.toLowerCase());
 			userRepository.save(user);
 			return "{\"result\":true}";
 		}

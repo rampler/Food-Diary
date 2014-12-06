@@ -41,7 +41,7 @@ public class SessionController {
 		try {
 			login = login.toLowerCase();
 			User user = userRepository.findOneByLogin(login);
-			if (user.getPassword().equals(password)) {
+			if (user.getPassword().equals(password.toLowerCase())) {
 				Session session = new Session(UUID.randomUUID(), userRepository.findOneByLogin(login), new Date(), sessionService.getIpAddress(request));
 				sessionRepository.save(session);
 				return "{\"id\":\"" + session.getId() + "\"}";
@@ -59,7 +59,7 @@ public class SessionController {
 	@ResponseBody
 	public String register(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("mailAddress") String email) {
 		try {
-			User user = new User(UUID.randomUUID(), login.toLowerCase(), password, email);
+			User user = new User(UUID.randomUUID(), login.toLowerCase(), password.toLowerCase(), email);
 			userRepository.save(user);
 			return "{\"result\":true}";
 		}
