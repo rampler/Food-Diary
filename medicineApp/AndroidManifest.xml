@@ -20,6 +20,16 @@
                   android:screenOrientation="portrait"
                   android:parentActivityName=".activities.UserProfile">
         </activity>
+        <activity android:name=".activities.AddMeal"
+                  android:label="Check the ingredients"
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".activities.UserProfile">
+        </activity>
+        <activity android:name=".activities.SetMealDetails"
+                  android:label="Set details"
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".activities.AddMeal">
+        </activity>
         <activity android:name=".activities.Logging"
                   android:screenOrientation="portrait"
                   android:label="@string/app_name">

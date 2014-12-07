@@ -12,8 +12,9 @@ public class Product {
     private String protein;
     private String fat;
     private String type;
+    private Boolean checked;
 
-    public Product(String id, String name, String calories, String carbon, String protein, String fat, String category) {
+    public Product(String id, String name, String calories, String carbon, String protein, String fat, String category, Boolean checked) {
         this.id = id;
         this.name = name;
         this.calories = calories;
@@ -21,12 +22,13 @@ public class Product {
         this.protein = protein;
         this.fat = fat;
         this.type = category;
+        this.checked = checked;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Product)) return false;
-        else if (((Product) obj).getId().equals(this.getId()) && ((Product) obj).getName().equals(this.getName())) return true;
+        else if (((Product) obj).getId().equals(this.getId())) return true;
         return false;
     }
 
@@ -56,5 +58,13 @@ public class Product {
 
     public String getType() {
         return type;
+    }
+
+    public Boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
     }
 }

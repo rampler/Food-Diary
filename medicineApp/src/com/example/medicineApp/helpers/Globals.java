@@ -18,6 +18,7 @@ public class Globals {
     private static Globals instance = null;
     private List<Meal> meals = Collections.emptyList();
     private List<Workout> workouts = Collections.emptyList();
+    private List<Product> productsForAMeal = null;
     private String sessionId = "";
     private static final String ServerURL = "http://foodiary.herokuapp.com";
     private boolean hasProfile = false;
@@ -87,7 +88,16 @@ public class Globals {
     public void clear() {
         meals = Collections.emptyList();
         workouts = Collections.emptyList();
+        productsForAMeal = Collections.emptyList();
         sessionId = "";
         user = null;
+    }
+
+    public List<Product> getProductsForAMeal() {
+        return productsForAMeal;
+    }
+
+    public void setProductsForAMeal(List<Product> productsForAMeal) {
+        this.productsForAMeal = productsForAMeal;
     }
 }

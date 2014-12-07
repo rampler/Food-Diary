@@ -99,7 +99,7 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
             @Override
             public void onPageSelected(int position) {
                 if (position == 1) {
-                    ListView lv = (ListView) findViewById(android.R.id.list);
+                    ListView lv = (ListView) findViewById(R.id.mealList);
                     lv.setAdapter(new MealListAdapter(getApplicationContext(), g.getMeals()));
                 } else if (position == 0 && g.getUser() != null) {
 
@@ -272,7 +272,7 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         if (tab.getPosition() == 1) {
-            ListView lv = (ListView) findViewById(android.R.id.list);
+            ListView lv = (ListView) findViewById(R.id.mealList);
             lv.setAdapter(new MealListAdapter(getApplicationContext(), g.getMeals()));
             viewPager.setCurrentItem(tab.getPosition());
         } else if (tab.getPosition() == 0 && g.getUser() != null) {
