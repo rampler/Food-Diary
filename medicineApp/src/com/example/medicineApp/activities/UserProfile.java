@@ -20,6 +20,7 @@ import com.example.medicineApp.objects.Exercise;
 import com.example.medicineApp.objects.Meal;
 import com.example.medicineApp.objects.User;
 import com.example.medicineApp.objects.Workout;
+import com.example.medicineApp.utils.DateHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +34,10 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class UserProfile extends FragmentActivity implements ActionBar.TabListener {
 
@@ -72,6 +76,7 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
             workoutsDialog = new ProgressDialog(this);
             DialogControl.configureNotCancellable(workoutsDialog);
             DialogControl.showDialog(workoutsDialog);
+            GetUserStats();
             GetUserProfile();
             GetUserMeals();
             GetWorkouts();
@@ -149,7 +154,8 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
     }
 
     private void GetUserMeals() {
-        String uri = String.format(g.getServerURL() + "/meal/getList?sessionId=%1$s", g.getSessionId());
+        String uri = String.format(g.getServerURL() + "/meal/getList?sessionId=%1$s&consumptionDay=%2$s",
+                g.getSessionId(), DateHandler.GetTodaysDate());
 
         JsonArrayRequest req = new JsonArrayRequest(uri,
                 new Response.Listener<JSONArray>() {
@@ -215,6 +221,10 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
         text.setText(g.getUser().getAge());
         text = (TextView) findViewById(R.id.profile_caloriesEdit);
         text.setText(g.getUser().getCalories());
+        text = (TextView) findViewById(R.id.textView4);
+        text.setText(g.getCounters()[0]);
+        text = (TextView) findViewById(R.id.textView9);
+        text.setText(g.getCounters()[1]);
     }
 
     private void GetUserProfile() {
@@ -294,7 +304,8 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
     }
 
     private void GetWorkouts() {
-        String uri = String.format(g.getServerURL() + "/workout/getList?sessionId=%1$s", g.getSessionId());
+        String uri = String.format(g.getServerURL() + "/workout/getList?sessionId=%1$s&workoutDate=%2$s",
+                g.getSessionId(), DateHandler.GetTodaysDate());
 
         JsonArrayRequest req = new JsonArrayRequest(uri,
                 new Response.Listener<JSONArray>() {
@@ -386,4 +397,43 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
         DialogControl.hideDialog(pDialog);
         AppController.getInstance().addToRequestQueue(req);
     }
+
+    private void GetUserStats() {
+        String date = DateHandler.GetTodaysDate();
+        String uri = String.format(g.getServerURL() + "/statistics/counters?sessionId=%1$s&date=%2$s", g.getSessionId(), date);
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, uri, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+
+                                g.updateCounter(0, response.getString("meals"));
+                                g.updateCounter(1, response.getString("workouts"));
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        AppController.getInstance().addToRequestQueue(req);
+    }
+
+
 }

@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Number of selected products:"
+            android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/numOfProducts" android:layout_gravity="center_horizontal"/>
-</LinearLayout>
+            android:id="@+id/textView2" android:layout_below="@+id/textView" android:layout_centerHorizontal="true"
+            android:paddingTop="15dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Set meal name: "
+            android:id="@+id/textView3" android:layout_below="@+id/textView2" android:layout_centerHorizontal="true"
+            android:layout_marginTop="54dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText" android:layout_below="@+id/textView3"
+            android:layout_alignRight="@+id/textView" android:layout_alignLeft="@+id/textView"
+            android:hint="Your meal name" android:gravity="center_vertical|center_horizontal"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Meal"
+            android:id="@+id/button"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/editText" android:layout_centerHorizontal="true"/>
+</RelativeLayout>

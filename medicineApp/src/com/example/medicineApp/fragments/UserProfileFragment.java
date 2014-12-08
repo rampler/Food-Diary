@@ -40,5 +40,9 @@ public class UserProfileFragment extends Fragment {
         text.setText(g.getUser().getAge());
         text = (TextView) rootView.findViewById(R.id.profile_caloriesEdit);
         text.setText(g.getUser().getCalories());
+        text = (TextView) rootView.findViewById(R.id.textView4);
+        text.setText(g.getCounters()[0]);
+        text = (TextView) rootView.findViewById(R.id.textView9);
+        text.setText(g.getCounters()[1]);
     }
 }

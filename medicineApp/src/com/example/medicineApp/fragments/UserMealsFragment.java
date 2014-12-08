@@ -40,7 +40,6 @@ public class UserMealsFragment extends Fragment implements View.OnClickListener 
             case R.id.addMealButton:
                 Intent intent = new Intent(getActivity(), AddMeal.class);
                 startActivity(intent);
-                getActivity().finish();
         }
     }
 
