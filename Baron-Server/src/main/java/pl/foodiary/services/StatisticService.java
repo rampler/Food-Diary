@@ -180,7 +180,7 @@ public class StatisticService {
 		}).get(0);
 		mainStatistics.setUnactiveUsersCounter(unactiveUsers);
 
-		long onlineUsers = jdbcTemplate.query("select count(id) from session where last_activity_date > current_timestamp - INTERVAL '30 mins'", new RowMapper<Long>() {
+		long onlineUsers = jdbcTemplate.query("select count(distinct(user_id)) from session where last_activity_date > current_timestamp - INTERVAL '30 mins'", new RowMapper<Long>() {
 			@Override
 			public Long mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return rs.getLong("count");
