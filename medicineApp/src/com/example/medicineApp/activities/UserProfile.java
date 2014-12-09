@@ -175,7 +175,10 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
                                     g.setMeals(new ArrayList<Meal>());
                                 }
 
-                                g.addMeal(new Meal(id, name, consumptionDay));
+                                Meal mealObj = new Meal(id, name, consumptionDay);
+
+                                if (!g.getMeals().contains(mealObj)) g.addMeal(mealObj);
+                                PrintProfileInfo();
                             }
 
 

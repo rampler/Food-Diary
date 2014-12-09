@@ -26,4 +26,11 @@ public class Meal {
     public String getName() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Meal)) return false;
+        else if (((Meal) obj).getId().equals(this.getId())) return true;
+        return false;
+    }
 }
