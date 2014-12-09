@@ -1,5 +1,8 @@
 package com.example.medicineApp.objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * Created by Sabina on 2014-12-05.
  */
@@ -27,10 +30,26 @@ public class Meal {
         return name;
     }
 
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31).
+                append(id).
+                toHashCode();
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Meal)) return false;
-        else if (((Meal) obj).getId().equals(this.getId())) return true;
-        return false;
+        if (!(obj instanceof Meal))
+            return false;
+        if (obj == this)
+            return true;
+
+        Meal rhs = (Meal) obj;
+        return new EqualsBuilder().
+                append(id, rhs.id).
+                isEquals();
     }
+
+
 }
