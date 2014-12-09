@@ -24,7 +24,7 @@ public class Application {
 	public static String mainAPI2 = "";
 
 	public static void main(String[] args) throws Exception {
-		//TODO to erase in final version
+		//API
 		File mainScreen = new File("mainScreen.baronapi");
 		Scanner in = new Scanner(mainScreen);
 		while (in.hasNext()) {
@@ -37,7 +37,7 @@ public class Application {
 			mainAPI2 += in2.nextLine();
 		}
 		in2.close();
-		//TODO END to erase in final version
+		//END API
 
 		SpringApplication.run(Application.class, args);
 	}
