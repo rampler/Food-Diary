@@ -72,7 +72,6 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
         else {
 
 
-
             workoutsDialog = new ProgressDialog(this);
             DialogControl.configureNotCancellable(workoutsDialog);
             DialogControl.showDialog(workoutsDialog);
@@ -95,34 +94,33 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
             }
 
 
-        }
+            viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
+                @Override
+                public void onPageSelected(int position) {
+                    if (position == 1) {
+                        actionBar.setSelectedNavigationItem(position);
+                        ListView lv = (ListView) findViewById(R.id.mealList);
+                        lv.setAdapter(new MealListAdapter(getApplicationContext(), g.getMeals()));
+                    } else if (position == 0 && g.getUser() != null) {
 
-
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 1) {
-                    ListView lv = (ListView) findViewById(R.id.mealList);
-                    lv.setAdapter(new MealListAdapter(getApplicationContext(), g.getMeals()));
-                } else if (position == 0 && g.getUser() != null) {
-
-                } else if (position == 2) {
-                    ListView lv = (ListView) findViewById(R.id.workoutList);
-                    lv.setAdapter(new WorkoutListAdapter(getApplicationContext(), g.getWorkouts()));
+                    } else if (position == 2) {
+                        actionBar.setSelectedNavigationItem(position);
+                        ListView lv = (ListView) findViewById(R.id.workoutList);
+                        lv.setAdapter(new WorkoutListAdapter(getApplicationContext(), g.getWorkouts()));
+                    }
+                    actionBar.setSelectedNavigationItem(position);
                 }
-                actionBar.setSelectedNavigationItem(position);
-            }
 
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
+                @Override
+                public void onPageScrolled(int arg0, float arg1, int arg2) {
+                }
 
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
+                @Override
+                public void onPageScrollStateChanged(int arg0) {
+                }
+            });
+        }
     }
 
     @Override
@@ -282,15 +280,17 @@ public class UserProfile extends FragmentActivity implements ActionBar.TabListen
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         if (tab.getPosition() == 1) {
+
             ListView lv = (ListView) findViewById(R.id.mealList);
             lv.setAdapter(new MealListAdapter(getApplicationContext(), g.getMeals()));
             viewPager.setCurrentItem(tab.getPosition());
         } else if (tab.getPosition() == 0 && g.getUser() != null) {
             viewPager.setCurrentItem(tab.getPosition());
         } else if (tab.getPosition() == 2) {
+
+            viewPager.setCurrentItem(tab.getPosition());
             ListView lv = (ListView) findViewById(R.id.workoutList);
             lv.setAdapter(new WorkoutListAdapter(getApplicationContext(), g.getWorkouts()));
-            viewPager.setCurrentItem(tab.getPosition());
         }
     }
 
